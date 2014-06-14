@@ -4,6 +4,6 @@
     <string name="app_name">MyPI Android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_result_acitivty">ResultAcitivty</string>
+    <string name="title_activity_result_activity">ResultActivity</string>
 
 </resources>
