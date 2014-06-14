@@ -28,8 +28,6 @@ public class ResultActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.result_screen);
-		
-
 
 		// Intent intent = getIntent();
 		tv = (TextView) findViewById(R.id.plain);
@@ -93,7 +91,7 @@ public class ResultActivity extends Activity {
 		protected void onPostExecute(JSONArray result) {
 			super.onPostExecute(result);
 			mDialog.dismiss();
-			
+
 			mArray = result;
 
 			Thread t = new Thread(new Runnable() {
@@ -109,4 +107,5 @@ public class ResultActivity extends Activity {
 			t.start();
 		}
 	}
+
 }
