@@ -22,6 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="kr.hansung.mypi.ResultAcitivty"
+            android:label="@string/title_activity_result_acitivty" >
+        </activity>
     </application>
 
 </manifest>
