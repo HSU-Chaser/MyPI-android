@@ -8,18 +8,19 @@ import java.net.URL;
 import org.json.JSONArray;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ResultActivity extends Activity {
-	private ProgressBar mProgress;
-	private int mStatus;
+	RelativeLayout layout;
+	ProgressBar mProgress;
+	ProgressDialog mDialog;
+	int mStatus;
 	JSONArray mArray;
 	TextView tv;
 
@@ -27,21 +28,28 @@ public class ResultActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.result_screen);
+		
+
 
 		// Intent intent = getIntent();
 		tv = (TextView) findViewById(R.id.plain);
 		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
-		ListView resultList = (ListView) findViewById(R.id.result_list);
+
+		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
 		new ResultTask().execute();
 	}
 
 	// AsyncTask class
-	class ResultTask extends AsyncTask<Void, Void, JSONArray> {
+	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mStatus = 0;
+			mDialog = new ProgressDialog(ResultActivity.this);
+			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			mDialog.setTitle("MyPI");
+			mDialog.setMessage("결과를 분석중입니다...");
+			mDialog.show();
 		}
 
 		@Override
@@ -84,8 +92,10 @@ public class ResultActivity extends Activity {
 		@Override
 		protected void onPostExecute(JSONArray result) {
 			super.onPostExecute(result);
-			mArray = result;
+			mDialog.dismiss();
 			
+			mArray = result;
+
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
