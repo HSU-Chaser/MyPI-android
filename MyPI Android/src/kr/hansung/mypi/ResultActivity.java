@@ -6,6 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import kr.list.DataListView;
+import kr.list.IconTextItem;
+import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 
 import org.json.JSONArray;
@@ -15,6 +18,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +38,10 @@ public class ResultActivity extends Activity {
 	JSONArray mArray;
 	TextView tv;
 
+	DataListView list;
+	IconTextListAdapter adapter;
+	Drawable[] riskImg;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +54,22 @@ public class ResultActivity extends Activity {
 		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
+
+		riskImg = new Drawable[3];
+
+		riskImg[0] = getResources().getDrawable(R.drawable.risk_low);
+		riskImg[1] = getResources().getDrawable(R.drawable.risk_mid);
+		riskImg[2] = getResources().getDrawable(R.drawable.risk_high);
+
+		list = new DataListView(this);
+		adapter = new IconTextListAdapter(this);
+		
+		adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0));
+		adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1));
+		adapter.addItem(new IconTextItem("3", "제목이 나와야 할 부분", riskImg[2));
+		
+		list.setAdapter(adapter);
+
 		new ResultTask().execute();
 	}
 
@@ -106,7 +130,7 @@ public class ResultActivity extends Activity {
 			mArray = array;
 
 			Log.d("TEST", array.length() + "");
-			
+
 			result = new ArrayList<SearchResult>();
 			for (int i = 0; i < mArray.length(); i++) {
 				try {
