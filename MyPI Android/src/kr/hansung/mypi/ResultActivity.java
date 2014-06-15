@@ -39,7 +39,7 @@ public class ResultActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		setContentView(R.layout.result_screen);
+		setContentView(R.layout.activity_result);
 		backHandler = new BackPressCloseHandler(this);
 		// Intent intent = getIntent();
 		// tv = (TextView) findViewById(R.id.plain);
@@ -106,6 +106,7 @@ public class ResultActivity extends Activity {
 			mArray = array;
 
 			Log.d("TEST", array.length() + "");
+			
 			result = new ArrayList<SearchResult>();
 			for (int i = 0; i < mArray.length(); i++) {
 				try {
