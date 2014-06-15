@@ -6,11 +6,33 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kr.hansung.mypi.MainActivity$PlaceholderFragment" >
+    tools:context=".MainActivity" >
 
-    <TextView
+    <Button
+        android:id="@+id/searchBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@+id/mypi_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="검색 시작" />
+
+    <Button
+        android:id="@+id/changeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/searchBtn"
+        android:layout_below="@+id/searchBtn"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="70dp"
+        android:text="정보 수정" />
+
+    <ImageView
+        android:id="@+id/mypi_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/pi_200x66" />
 
 </RelativeLayout>

@@ -16,17 +16,21 @@
         android:logo="@drawable/pi_144x44"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="kr.hansung.mypi.Intro"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="kr.hansung.mypi.MainActivity"
             android:label="" >
         </activity>
         <activity
             android:name="kr.hansung.mypi.ResultActivity"
             android:label="" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
