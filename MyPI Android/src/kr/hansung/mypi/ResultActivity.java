@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+import kr.object.SearchResult;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -20,6 +25,7 @@ public class ResultActivity extends Activity {
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
+	ArrayList<SearchResult> result;
 	int mStatus;
 	JSONArray mArray;
 	TextView tv;
@@ -27,15 +33,18 @@ public class ResultActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.result_screen);
+		setContentView(R.layout.activity_result);
 
 		// Intent intent = getIntent();
-		tv = (TextView) findViewById(R.id.plain);
+		// tv = (TextView) findViewById(R.id.plain);
 		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
 		new ResultTask().execute();
+
+		// Log.d("TEST", mArray.toString());
+
 	}
 
 	// AsyncTask class
@@ -87,24 +96,46 @@ public class ResultActivity extends Activity {
 			return array;
 		}
 
+		// 받아오는것이 완료된 시점
 		@Override
-		protected void onPostExecute(JSONArray result) {
-			super.onPostExecute(result);
+		protected void onPostExecute(JSONArray array) {
+			super.onPostExecute(array);
 			mDialog.dismiss();
 
-			mArray = result;
+			mArray = array;
+
+			Log.d("TEST", array.length() + "");
+			result = new ArrayList<SearchResult>();
+			for (int i = 0; i < mArray.length(); i++) {
+
+				try {
+					JSONObject object = (JSONObject) mArray.get(i);
+
+					result.add(new SearchResult(object.getString("engine"),
+							object.getString("title"), object.getString("URL"),
+							object.getString("snippet"), object
+									.getString("searchPage"), object.getDouble("exposure")));
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			Log.d("TEST", result.size() + "");
 
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					runOnUiThread(new Runnable() {
 						public void run() {
-							tv.setText(mArray.toString());
+							// tv.setText(mArray.toString());
 						}
 					});
 				}
 			});
 			t.start();
+
 		}
 	}
 
