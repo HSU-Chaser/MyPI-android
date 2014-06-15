@@ -9,25 +9,32 @@ import org.json.JSONArray;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ResultActivity extends Activity {
+	private BackPressCloseHandler backHandler;
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
-	int mStatus;
 	JSONArray mArray;
 	TextView tv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.result_screen);
+		backHandler = new BackPressCloseHandler(this);
 
 		// Intent intent = getIntent();
 		tv = (TextView) findViewById(R.id.plain);
@@ -108,4 +115,39 @@ public class ResultActivity extends Activity {
 		}
 	}
 
+	// Action Bar Menu Control
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			intent = new Intent(ResultActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
+			break;
+		case R.id.change_info:
+			intent = new Intent(ResultActivity.this, ChangeInfoActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.signout:
+			// 로그아웃
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
+	}
+
+	// Back Button Control
+	@Override
+	public void onBackPressed() {
+		backHandler.onBackPressed();
+	}
 }

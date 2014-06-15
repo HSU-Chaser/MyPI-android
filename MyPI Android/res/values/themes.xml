@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- the theme applied to the application or activity -->
+    <style name="MyPIActionBarTheme" parent="@style/AppBaseTheme">
+        <item name="android:actionBarStyle">@style/MyPIActionBar</item>
+        <item name="android:windowContentOverlay">@drawable/underline</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyPIActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#ffffffff</item>
+    </style>
+
 </resources>

@@ -23,7 +23,7 @@ public class Intro extends Activity {
 						R.anim.alpha);
 				intro.startAnimation(alphaAnim);
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(2100);
 					isIntro();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -37,5 +37,10 @@ public class Intro extends Activity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
 		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
 	}
 }

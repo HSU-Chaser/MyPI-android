@@ -9,8 +9,8 @@
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:contentDescription="@string/app_name"
+        android:padding="30dp"
         android:src="@drawable/logo_300x100" />
 
 </LinearLayout>

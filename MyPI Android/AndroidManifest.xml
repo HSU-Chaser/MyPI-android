@@ -13,11 +13,12 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
         android:logo="@drawable/pi_144x44"
         android:theme="@style/AppTheme" >
         <activity
             android:name="kr.hansung.mypi.Intro"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,11 +27,18 @@
         </activity>
         <activity
             android:name="kr.hansung.mypi.MainActivity"
-            android:label="" >
+            android:label="메인화면"
+            android:theme="@style/MyPIActionBarTheme" >
         </activity>
         <activity
             android:name="kr.hansung.mypi.ResultActivity"
-            android:label="" >
+            android:label="검색결과"
+            android:theme="@style/MyPIActionBarTheme" >
+        </activity>
+        <activity
+            android:name="kr.hansung.mypi.ChangeInfoActivity"
+            android:label="정보수정"
+            android:theme="@style/MyPIActionBarTheme" >
         </activity>
     </application>
 
