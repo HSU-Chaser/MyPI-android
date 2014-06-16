@@ -31,6 +31,11 @@
             android:theme="@style/MyPIActionBarTheme" >
         </activity>
         <activity
+            android:name="kr.hansung.mypi.SignUpActivity"
+            android:label="회원가입"
+            android:theme="@style/MyPIActionBarTheme" >
+        </activity>
+        <activity
             android:name="kr.hansung.mypi.ResultActivity"
             android:label="검색결과"
             android:theme="@style/MyPIActionBarTheme" >

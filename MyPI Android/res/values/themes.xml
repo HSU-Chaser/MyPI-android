@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
     <style name="MyPIActionBarTheme" parent="@style/AppBaseTheme">
         <item name="android:actionBarStyle">@style/MyPIActionBar</item>
         <item name="android:windowContentOverlay">@drawable/underline</item>
+        <item name="android:button">@style/MyPIButton</item>
     </style>
 
-    <!-- ActionBar styles -->
+    <!-- ActionBar style -->
     <style name="MyPIActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">#ffffffff</item>
+    </style>
+
+    <!-- Button style -->
+    <style name="MyPIButton" parent="@android:drawable/btn_default">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">#0c76c7</item>
     </style>
 
 </resources>

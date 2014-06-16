@@ -8,26 +8,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-	private BackPressCloseHandler backHandler;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		backHandler = new BackPressCloseHandler(this);
 		setContentView(R.layout.activity_main);
 
-		Button changeInfoBtn = (Button) findViewById(R.id.changeBtn);
-		changeInfoBtn.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this,
-						ChangeInfoActivity.class);
-
-				startActivity(intent);
-			}
-		});
-
-		Button testBtn = (Button) findViewById(R.id.test);
+		Button testBtn = (Button) findViewById(R.id.loginBtn);
 		testBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -36,11 +23,23 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-	}
 
-	// Back Button Control
-	@Override
-	public void onBackPressed() {
-		backHandler.onBackPressed();
+		Button signUpBtn = (Button) findViewById(R.id.SignupBtn);
+		signUpBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						SignUpActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		Button exitBtn = (Button) findViewById(R.id.exitBtn);
+		exitBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 }

@@ -32,7 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ResultActivity extends Activity {
-	private BackPressCloseHandler backHandler;
+	//private BackPressCloseHandler backHandler;
 	private ResultActivity resultActivity = this;
 	private ExpandableListView mListView;
 
@@ -59,7 +59,7 @@ public class ResultActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 //		setContentView(R.layout.activity_result);
-		backHandler = new BackPressCloseHandler(this);
+		//backHandler = new BackPressCloseHandler(this);
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
@@ -224,9 +224,9 @@ public class ResultActivity extends Activity {
 		return false;
 	}
 
-	// Back Button Control
+	/*// Back Button Control
 	@Override
 	public void onBackPressed() {
 		backHandler.onBackPressed();
-	}
+	}*/
 }
