@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import kr.list.DataListView;
+import kr.list.IconTextItem;
 import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 
@@ -24,7 +25,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -32,10 +32,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ResultActivity extends Activity {
-	protected static final int REQUEST_CODE_ANOTHER = 101;
+public class DynamicResultActivity extends Activity {
 	private BackPressCloseHandler backHandler;
-	private ResultActivity resultActivity = this;
 	private ExpandableListView mListView;
 
 	RelativeLayout layout;
@@ -45,25 +43,22 @@ public class ResultActivity extends Activity {
 	ViewGroup.LayoutParams params;
 	JSONArray mArray;
 	TextView tv;
-
-	TextView safeText1, safeText2;
 	Button resultBtn;
 
 	DataListView list;
 	IconTextListAdapter adapter;
 	Drawable[] riskImgArray;
 	Drawable riskImg;
-	double totalExp = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_result);
-
+		
+		setContentView(R.layout.activity_dynamic_result);
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// setContentView(R.layout.activity_result);
+//		setContentView(R.layout.activity_result);
 		backHandler = new BackPressCloseHandler(this);
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
@@ -74,10 +69,7 @@ public class ResultActivity extends Activity {
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
-		resultBtn = (Button) findViewById(R.id.resultBtn);
-		safeText1 = (TextView) findViewById(R.id.safeText1);
-		safeText2 = (TextView) findViewById(R.id.safeText2);
-
+		
 		riskImgArray = new Drawable[3];
 
 		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
@@ -86,26 +78,16 @@ public class ResultActivity extends Activity {
 
 		list = new DataListView(this);
 		adapter = new IconTextListAdapter(this);
-
-		// adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0]));
-		// adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1]));
-
+	
 		new ResultTask().execute();
-
-		resultBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View arg0) {
-				Intent intent = new Intent(getBaseContext(),
-						DynamicResultActivity.class);
-				startActivityForResult(intent, REQUEST_CODE_ANOTHER);
-			}
-		});
 	}
+
 
 	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mDialog = new ProgressDialog(ResultActivity.this);
+			mDialog = new ProgressDialog(DynamicResultActivity.this);
 			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			mDialog.setTitle("MyPI");
 			mDialog.setMessage("결과를 분석중입니다...");
@@ -149,40 +131,12 @@ public class ResultActivity extends Activity {
 			return array;
 		}
 
-		public String[] getGrade(int grade) {
-
-			String gradeText[] = { " ", " " };
-
-			if (grade == 0) {
-				gradeText[0] = "'안전'";
-				gradeText[1] = "회원님의 개인 정보는 비교적 안전하게 관리되고 있습니다. 회원정보를 모두 입력하지 않으셨을 경우, 검색되는 데이터의 질이 떨어질 수 있습니다.";
-				return gradeText;
-			} else if (grade == 1) {
-				gradeText[0] = "'경고'";
-				gradeText[1] = "회원님의 개인 정보가 일부 웹에 존재합니다. 검색결과를 보시고, 제공되는 솔루션을 통해 자신의 개인정보를 관리해보세요";
-				return gradeText;
-			} else if (grade == 2) {
-				gradeText[0] = "'위험'";
-				gradeText[1] = "회원님의 중요한 개인 정보가 일부 웹에 노출되어 있습니다. 검색결과를 보시고, 제공되는 솔루션을 통해 자신의 개인정보를 관리해보세요";
-				return gradeText;
-			} else if (grade >= 3) {
-				gradeText[0] = "'매우 위험'";
-				gradeText[1] = "회원님의 중요한 개인 정보가 웹에 다수 노출되어 있습니다.  검색결과를 보시고, 제공되는 솔루션을 통해 자신의 개인정보를 관리해보세요";
-				return gradeText;
-			} else {
-				gradeText[0] = "'알수없음'";
-				gradeText[1] = "검색결과가 불분명합니다. 너무 많은 정보가 검색되어 트래픽 문제가 발생하였습니다.";
-				return gradeText;
-			}
-
-		}
-
 		// 받아오는것이 완료된 시점
 		@Override
 		protected void onPostExecute(JSONArray array) {
 			super.onPostExecute(array);
 			mDialog.dismiss();
-			
+
 			mArray = array;
 
 			Log.d("TEST", array.length() + "");
@@ -197,9 +151,20 @@ public class ResultActivity extends Activity {
 							object.getString("snippet"), object
 									.getString("searchPage"), object
 									.getDouble("exposure")));
-					// 여기서는 result페이지에 나오는 static 부분에 대한 파싱이 필요함
+					
+					//index, title, riskImg
+					double exposure = result.get(i).getExposure();
+					if(exposure >= 120) riskImg = riskImgArray[2];
+					else if(exposure < 120 && exposure >= 20) riskImg = riskImgArray[1];
+					else if(exposure < 20) riskImg = riskImgArray[0];
+					
+					adapter.addItem(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
 
-					totalExp += result.get(i).getExposure();
+					list.setAdapter(adapter);
+					
+					
+					DynamicResultActivity.this.setContentView(list, params);
+					
 					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -215,14 +180,6 @@ public class ResultActivity extends Activity {
 					runOnUiThread(new Runnable() {
 						public void run() {
 
-							String gradeText[] = {,};
-							gradeText = getGrade((int)(totalExp/1000));
-							Log.d("TEST", "등급 integer : " + (int)(totalExp/1000));					
-
-							safeText1.setText("회원님의 보안등급은 " + gradeText[0] + " 입니다.");
-							safeText2.setText(gradeText[1]);
-
-							
 						}
 					});
 				}
@@ -244,12 +201,12 @@ public class ResultActivity extends Activity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(ResultActivity.this, MainActivity.class);
+			intent = new Intent(DynamicResultActivity.this, MainActivity.class);
 			startActivity(intent);
 			finish();
 			break;
 		case R.id.change_info:
-			intent = new Intent(ResultActivity.this, ChangeInfoActivity.class);
+			intent = new Intent(DynamicResultActivity.this, ChangeInfoActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.signout:
