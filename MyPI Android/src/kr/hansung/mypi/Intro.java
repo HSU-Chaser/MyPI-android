@@ -23,7 +23,7 @@ public class Intro extends Activity {
 						R.anim.alpha);
 				intro.startAnimation(alphaAnim);
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(2100);
 					isIntro();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
