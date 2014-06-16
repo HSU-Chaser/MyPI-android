@@ -250,12 +250,13 @@ public class ResultActivity extends Activity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(ResultActivity.this, MainActivity.class);
+			intent = new Intent(getApplicationContext(), MainActivity.class);
 			startActivity(intent);
 			finish();
 			break;
 		case R.id.change_info:
-			intent = new Intent(ResultActivity.this, ChangeInfoActivity.class);
+			intent = new Intent(getApplicationContext(),
+					ChangeInfoActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.signout:
@@ -266,10 +267,4 @@ public class ResultActivity extends Activity {
 		}
 		return false;
 	}
-
-	/*
-	 * // Back Button Control
-	 * 
-	 * @Override public void onBackPressed() { backHandler.onBackPressed(); }
-	 */
 }

@@ -36,6 +36,11 @@
             android:theme="@style/MyPIActionBarTheme" >
         </activity>
         <activity
+            android:name="kr.hansung.mypi.SearchActivity"
+            android:label="검색시작"
+            android:theme="@style/MyPIActionBarTheme" >
+        </activity>
+        <activity
             android:name="kr.hansung.mypi.ResultActivity"
             android:label="검색결과"
             android:theme="@style/MyPIActionBarTheme" >

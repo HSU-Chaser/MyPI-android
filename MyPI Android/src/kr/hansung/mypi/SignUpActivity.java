@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 public class SignUpActivity extends Activity {
-	public void onCreate(Bundle savedInstanaceState) {
+	@Override
+	protected void onCreate(Bundle savedInstanaceState) {
 		super.onCreate(savedInstanaceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
@@ -19,7 +20,7 @@ public class SignUpActivity extends Activity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(SignUpActivity.this, MainActivity.class);
+			intent = new Intent(getApplicationContext(), MainActivity.class);
 			startActivity(intent);
 			finish();
 			break;

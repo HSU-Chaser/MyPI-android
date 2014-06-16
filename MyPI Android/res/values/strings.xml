@@ -8,5 +8,6 @@
     <string name="title_activity_result_activity">ResultActivity</string>
     <string name="title_activity_dynamic_result">DynamicResultActivity</string>
     <string name="header">정보의 바다에서 떠도는 당신의 기록, 스스로 지켜주세요.</string>
+    <string name="footer">© Team Chaser</string>
 
 </resources>
