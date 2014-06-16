@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import kr.list.DataListView;
+import kr.list.IconTextItem;
 import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 import kr.object.StaticItem;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,8 +56,9 @@ public class ResultActivity extends Activity {
 	TextView safeText1, safeText2;
 	Button resultBtn;
 
-	DataListView list;
-	IconTextListAdapter adapter;
+	// DataListView list;
+	// IconTextListAdapter adapter;
+
 	Drawable[] riskImgArray;
 	Drawable riskImg;
 
@@ -88,8 +91,8 @@ public class ResultActivity extends Activity {
 		riskImgArray[1] = getResources().getDrawable(R.drawable.risk_mid);
 		riskImgArray[2] = getResources().getDrawable(R.drawable.risk_high);
 
-		list = new DataListView(this);
-		adapter = new IconTextListAdapter(this);
+		// list = new DataListView(this);
+		// adapter = new IconTextListAdapter(this);
 
 		// adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0]));
 		// adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1]));
@@ -168,6 +171,8 @@ public class ResultActivity extends Activity {
 					runOnUiThread(new Runnable() {
 						public void run() {
 
+							// setText 등
+
 						}
 					});
 				}
@@ -222,6 +227,8 @@ public class ResultActivity extends Activity {
 
 		// Dynamic Search
 		dynamicResult = new ArrayList<SearchResult>();
+		DynamicResultActivity.mGroupList.clear();
+
 		for (int i = 0; i < dynamicSearch.length(); i++) {
 			try {
 				JSONObject item = (JSONObject) dynamicSearch.get(i);
@@ -231,10 +238,25 @@ public class ResultActivity extends Activity {
 								.getString("snippet"), item
 								.getString("searchPage"), item
 								.getDouble("exposure")));
+
+				double exposure = dynamicResult.get(i).getExposure();
+				if (exposure >= 120)
+					riskImg = riskImgArray[2];
+				else if (exposure < 120 && exposure >= 20)
+					riskImg = riskImgArray[1];
+				else if (exposure < 20)
+					riskImg = riskImgArray[0];
+
+				DynamicResultActivity.mGroupList.add(new IconTextItem(i + 1
+						+ "", dynamicResult.get(i).getTitle(), riskImg));
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+
+		// DynamicResultActivity 에서 사용할 재료들을 저장시켜준
+
 	}
 
 	// Action Bar Menu Control

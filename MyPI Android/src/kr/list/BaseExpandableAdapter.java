@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import kr.hansung.mypi.R;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,14 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
 	private ArrayList<IconTextItem> groupList = null;
 	private ArrayList<ArrayList<String>> childList = null;
-	private LayoutInflater inflater = null;
+	private LayoutInflater inflater;
 	private ViewHolder viewHolder = null;
 
-	public BaseExpandableAdapter(Context c, ArrayList<IconTextItem> groupList,
+	public BaseExpandableAdapter(Context context,
+			ArrayList<IconTextItem> groupList,
 			ArrayList<ArrayList<String>> childList) {
 		super();
-		this.inflater = LayoutInflater.from(c);
+		this.inflater = LayoutInflater.from(context);
 		this.groupList = groupList;
 		this.childList = childList;
 	}
@@ -65,13 +65,15 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 		}
 
 		// 그룹을 펼칠때와 닫을때 아이콘을 변경해 준다.
-		if (isExpanded) {
-			viewHolder.riskImg.setBackgroundColor(Color.GREEN);
-		} else {
-			viewHolder.riskImg.setBackgroundColor(Color.WHITE);
-		}
+		// if (isExpanded) {
+		// viewHolder.riskImg.setBackgroundColor(Color.GREEN);
+		// } else {
+		// viewHolder.riskImg.setBackgroundColor(Color.WHITE);
+		// }
 
-		viewHolder.index.setText((CharSequence) getGroup(groupPosition));
+		viewHolder.index.setText(getGroup(groupPosition).getData(0));
+		viewHolder.title.setText(getGroup(groupPosition).getData(1));
+		viewHolder.riskImg.setImageDrawable(getGroup(groupPosition).getIcon());
 
 		return v;
 	}
@@ -79,6 +81,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 	// 차일드뷰를 반환한다.
 	@Override
 	public String getChild(int groupPosition, int childPosition) {
+
 		return childList.get(groupPosition).get(childPosition);
 	}
 
@@ -110,6 +113,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 			viewHolder = (ViewHolder) v.getTag();
 		}
 
+		Log.d("TEST", "getChildView() : " + getChild(groupPosition, childPosition));
 		viewHolder.childText.setText(getChild(groupPosition, childPosition));
 
 		return v;
@@ -126,12 +130,12 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	class ViewHolder {
-		
+
 		public TextView index;
 		public TextView title;
-		public ImageView riskImg;
-		
 		public TextView childText;
+		public ImageView riskImg;
+
 	}
 
 }

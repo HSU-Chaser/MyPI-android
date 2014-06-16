@@ -5,17 +5,17 @@ import android.widget.ImageView;
 
 public class IconTextItem {
 
-	private ImageView mIcon;
+	private Drawable mIcon;
 	private String[] mData;
 
-	public IconTextItem(ImageView icon, String[] obj) {
+	public IconTextItem(Drawable icon, String[] obj) {
 		mIcon = icon;
 		mData = obj;
 	}
 
-	public IconTextItem(String num, String title, ImageView riskImg) {
+	public IconTextItem(String num, String title, Drawable riskImg) {
 		mIcon = riskImg;
-		
+
 		mData = new String[2];
 		mData[0] = num;
 		mData[1] = title;
@@ -25,9 +25,8 @@ public class IconTextItem {
 		return mData;
 	}
 
-	
-	// selectable 함수 2가지 
-	
+	// selectable 함수 2가지
+
 	public String getData(int index) {
 		if (mData == null || index >= mData.length) {
 			return null;
@@ -40,16 +39,15 @@ public class IconTextItem {
 		mData = obj;
 	}
 
-	public void setIcon(ImageView icon) {
+	public void setIcon(Drawable icon) {
 		mIcon = icon;
 	}
 
-	public ImageView getIcon() {
+	public Drawable getIcon() {
 		return mIcon;
 	}
-	
-	
-	//다른 데이터와 비교해서 다르면 -1 리턴 아니면 오류
+
+	// 다른 데이터와 비교해서 다르면 -1 리턴 아니면 오류
 	public int compareTo(IconTextItem other) {
 		if (mData != null) {
 			String[] otherData = other.getData();
@@ -65,7 +63,7 @@ public class IconTextItem {
 		} else {
 			throw new IllegalArgumentException();
 		}
-		
+
 		return 0;
 	}
 }
