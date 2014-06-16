@@ -71,11 +71,18 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/safeText1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="회원님의 보안등급은 안전 입니다.\n검색된 결과를 솔루션을 통해 지워보세요"
-                            android:textColor="#ffffff" />
+                            android:text="회원님의 보안등급은 안전 입니다."
+                            android:textColor="#FF007F" />
+                        <TextView
+                            android:id="@+id/safeText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="검색된 결과를 솔루션을 통해 지워보세요"
+                            android:textSize="10sp"
+                            android:textColor="#FAF4C0" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -319,12 +326,13 @@
                         android:gravity="center|center_vertical"
                         android:orientation="vertical" >
 
-                        <TextView
-                            android:id="@+id/textView6"
+                        <Button
+                            android:id="@+id/resultBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="MY-Pi 솔루션을 통해 찾아낸\n회원님의 개인정보가 담긴 데이터 입니다.\n총 37개의 게시물이 검색되었습니다.\n각 게시물을 클릭하시면, 간략한 내용과 함께,\n해당 게시물을 삭제할 수 있는 솔루션이 제공됩니다."
+                            android:text="Dynamic Search 결과"
                             android:textColor="#ffffff" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -341,12 +349,6 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
-                <ExpandableListView
-                    android:id="@+id/expandList"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:groupIndicator="@null" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

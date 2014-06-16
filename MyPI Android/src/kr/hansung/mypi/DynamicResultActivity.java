@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import kr.list.DataListView;
+import kr.list.IconTextItem;
 import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 
@@ -24,7 +25,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -32,10 +32,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ResultActivity extends Activity {
-	protected static final int REQUEST_CODE_ANOTHER = 101;
-	// private BackPressCloseHandler backHandler;
-	private ResultActivity resultActivity = this;
+public class DynamicResultActivity extends Activity {
+	private BackPressCloseHandler backHandler;
 	private ExpandableListView mListView;
 
 	RelativeLayout layout;
@@ -45,8 +43,6 @@ public class ResultActivity extends Activity {
 	ViewGroup.LayoutParams params;
 	JSONArray mArray;
 	TextView tv;
-
-	TextView safeText1, safeText2;
 	Button resultBtn;
 
 	DataListView list;
@@ -57,13 +53,13 @@ public class ResultActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_result);
-
+		
+		setContentView(R.layout.activity_dynamic_result);
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// setContentView(R.layout.activity_result);
-		// backHandler = new BackPressCloseHandler(this);
+//		setContentView(R.layout.activity_result);
+		backHandler = new BackPressCloseHandler(this);
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
@@ -73,10 +69,7 @@ public class ResultActivity extends Activity {
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
-		resultBtn = (Button) findViewById(R.id.resultBtn);
-		safeText1 = (TextView) findViewById(R.id.safeText1);
-		safeText2 = (TextView) findViewById(R.id.safeText2);
-
+		
 		riskImgArray = new Drawable[3];
 
 		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
@@ -85,26 +78,16 @@ public class ResultActivity extends Activity {
 
 		list = new DataListView(this);
 		adapter = new IconTextListAdapter(this);
-
-		// adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0]));
-		// adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1]));
-
+	
 		new ResultTask().execute();
-
-		resultBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View arg0) {
-				Intent intent = new Intent(getBaseContext(),
-						DynamicResultActivity.class);
-				startActivityForResult(intent, REQUEST_CODE_ANOTHER);
-			}
-		});
 	}
+
 
 	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mDialog = new ProgressDialog(ResultActivity.this);
+			mDialog = new ProgressDialog(DynamicResultActivity.this);
 			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			mDialog.setTitle("MyPI");
 			mDialog.setMessage("결과를 분석중입니다...");
@@ -168,8 +151,21 @@ public class ResultActivity extends Activity {
 							object.getString("snippet"), object
 									.getString("searchPage"), object
 									.getDouble("exposure")));
-					// 여기서는 result페이지에 나오는 static 부분에 대한 파싱이 필요함
+					
+					//index, title, riskImg
+					double exposure = result.get(i).getExposure();
+					if(exposure >= 120) riskImg = riskImgArray[2];
+					else if(exposure < 120 && exposure >= 20) riskImg = riskImgArray[1];
+					else if(exposure < 20) riskImg = riskImgArray[0];
+					
+					adapter.addItem(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
 
+					list.setAdapter(adapter);
+					
+					
+					DynamicResultActivity.this.setContentView(list, params);
+					
+					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -205,12 +201,12 @@ public class ResultActivity extends Activity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(ResultActivity.this, MainActivity.class);
+			intent = new Intent(DynamicResultActivity.this, MainActivity.class);
 			startActivity(intent);
 			finish();
 			break;
 		case R.id.change_info:
-			intent = new Intent(ResultActivity.this, ChangeInfoActivity.class);
+			intent = new Intent(DynamicResultActivity.this, ChangeInfoActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.signout:
@@ -222,9 +218,9 @@ public class ResultActivity extends Activity {
 		return false;
 	}
 
-	/*
-	 * // Back Button Control
-	 * 
-	 * @Override public void onBackPressed() { backHandler.onBackPressed(); }
-	 */
+	// Back Button Control
+	@Override
+	public void onBackPressed() {
+		backHandler.onBackPressed();
+	}
 }

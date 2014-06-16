@@ -45,6 +45,11 @@
             android:label="정보수정"
             android:theme="@style/MyPIActionBarTheme" >
         </activity>
+        <activity
+            android:name="kr.hansung.mypi.DynamicResultActivity"
+            android:label="@string/title_activity_dynamic_result"
+            android:theme="@style/MyPIActionBarTheme" >
+        </activity>
     </application>
 
 </manifest>
