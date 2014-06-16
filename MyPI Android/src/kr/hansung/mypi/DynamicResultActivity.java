@@ -3,7 +3,8 @@ package kr.hansung.mypi;
 import java.util.ArrayList;
 
 import kr.list.BaseExpandableAdapter;
-import kr.list.IconTextItem;
+import kr.list.ChildItem;
+import kr.list.GroupItem;
 import kr.object.SearchResult;
 
 import org.json.JSONArray;
@@ -16,20 +17,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DynamicResultActivity extends Activity {
 	private BackPressCloseHandler backHandler;
 	private ExpandableListView mListView;
 
-	public static ArrayList<IconTextItem> mGroupList = new ArrayList<IconTextItem>();
-	private ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
-	private ArrayList<String> mChildListContent = new ArrayList<String>();
+	public static ArrayList<GroupItem> mGroupList = new ArrayList<GroupItem>();
+	public static ArrayList<ChildItem> mChildListContent = new ArrayList<ChildItem>();
+	private ArrayList<ArrayList<ChildItem>> mChildList = new ArrayList<ArrayList<ChildItem>>();
+	private BaseExpandableAdapter mBaseExpandableAdapter = null;
 
 	RelativeLayout layout;
 	ProgressBar mProgress;
@@ -58,24 +66,87 @@ public class DynamicResultActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		backHandler = new BackPressCloseHandler(this);
 
-		// list = new DataListView(this);
-		// adapter = new IconTextListAdapter(this);
 
-		Log.d("TEST", "그룹의 사이즈 : " + mGroupList.size() + "");
-
-		mChildListContent.add("12345");
+		
+		//데이터가 들어가면됨
+//		mChildListContent.add("12345");
+		
+		
+		
 		for (int i = 0; i < mGroupList.size(); i++) {
 			mChildList.add(mChildListContent);
 		}
 
-		Log.d("TEST", "그룹 사이즈 : " + mGroupList.size() + "");
-		Log.d("TEST", "그룹 string 테스트 : " + mChildList.get(0).get(0) + "");
-		Log.d("TEST", "그룹 string 테스트 : " + mChildList.get(14).get(0) + "");
-		Log.d("TEST", "그룹 string 테스트 : " + mChildList.get(53).get(0) + "");
-		
-		
-		mListView.setAdapter(new BaseExpandableAdapter(
-				DynamicResultActivity.this, mGroupList, mChildList));
+		mBaseExpandableAdapter = new BaseExpandableAdapter(this, mGroupList,
+				mChildList);
+
+		mListView.setAdapter(mBaseExpandableAdapter);
+
+		// if (result.get(i).getEngine().matches(".*Naver.*") == true) {
+		//
+		// } else if (result.get(i).getEngine().matches(".*Daum.*") == true) {
+		//
+		// } else if (result.get(i).getEngine().matches(".*Google.*") == true) {
+		//
+		// }
+
+		// 그룹 클릭 했을 경우 이벤트
+		mListView.setOnGroupClickListener(new OnGroupClickListener() {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				Toast.makeText(getApplicationContext(),
+						"g click = " + groupPosition, Toast.LENGTH_SHORT)
+						.show();
+
+				// Listener 에서 Adapter 사용법 (getExpandableListAdapter 사용해야함.)
+				// BaseExpandableAdpater에 오버라이드 된 함수들을 사용할 수 있다.
+				int groupCount = (int) parent.getExpandableListAdapter()
+						.getGroupCount();
+				int childCount = (int) parent.getExpandableListAdapter()
+						.getChildrenCount(groupPosition);
+
+				return false;
+			}
+		});
+
+		// 차일드 클릭 했을 경우 이벤트
+		mListView.setOnChildClickListener(new OnChildClickListener() {
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				Toast.makeText(getApplicationContext(),
+						"c click = " + childPosition, Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+		});
+
+		// 그룹이 닫힐 경우 이벤트
+		mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+			@Override
+			public void onGroupCollapse(int groupPosition) {
+
+			}
+		});
+
+		// 그룹이 열릴 경우 이벤트
+		mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				Toast.makeText(getApplicationContext(),
+						"g Expand = " + groupPosition, Toast.LENGTH_SHORT)
+						.show();
+
+				int groupCount = mBaseExpandableAdapter.getGroupCount();
+
+				// 한 그룹을 클릭하면 나머지 그룹들은 닫힌다.
+				for (int i = 0; i < groupCount; i++) {
+					if (!(i == groupPosition))
+						mListView.collapseGroup(i);
+				}
+			}
+		});
 
 	}
 

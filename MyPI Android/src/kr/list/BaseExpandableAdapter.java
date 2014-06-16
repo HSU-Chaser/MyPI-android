@@ -14,14 +14,14 @@ import android.widget.TextView;
 
 public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
-	private ArrayList<IconTextItem> groupList = null;
-	private ArrayList<ArrayList<String>> childList = null;
+	private ArrayList<GroupItem> groupList = null;
+	private ArrayList<ArrayList<ChildItem>> childList = null;
 	private LayoutInflater inflater;
 	private ViewHolder viewHolder = null;
 
 	public BaseExpandableAdapter(Context context,
-			ArrayList<IconTextItem> groupList,
-			ArrayList<ArrayList<String>> childList) {
+			ArrayList<GroupItem> groupList,
+			ArrayList<ArrayList<ChildItem>> childList) {
 		super();
 		this.inflater = LayoutInflater.from(context);
 		this.groupList = groupList;
@@ -30,7 +30,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
 	// 그룹 포지션을 반환한다.
 	@Override
-	public IconTextItem getGroup(int groupPosition) {
+	public GroupItem getGroup(int groupPosition) {
 		return groupList.get(groupPosition);
 	}
 
@@ -80,7 +80,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
 	// 차일드뷰를 반환한다.
 	@Override
-	public String getChild(int groupPosition, int childPosition) {
+	public ChildItem getChild(int groupPosition, int childPosition) {
 
 		return childList.get(groupPosition).get(childPosition);
 	}
@@ -106,15 +106,19 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
 		if (v == null) {
 			viewHolder = new ViewHolder();
-			v = inflater.inflate(R.layout.listitem, null);
-			viewHolder.childText = (TextView) v.findViewById(R.id.childText);
+			v = inflater.inflate(R.layout.childitem, null);
+			viewHolder.snippet = (TextView) v.findViewById(R.id.snippet);
+			viewHolder.solution1 = (TextView) v.findViewById(R.id.solution1);
+			viewHolder.solution2 = (TextView) v.findViewById(R.id.solution2);
+
 			v.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) v.getTag();
 		}
 
-		Log.d("TEST", "getChildView() : " + getChild(groupPosition, childPosition));
-		viewHolder.childText.setText(getChild(groupPosition, childPosition));
+		viewHolder.snippet.setText(getChild(groupPosition, childPosition).getSnippet());
+		viewHolder.solution1.setText(getChild(groupPosition, childPosition).getSolution1());
+		viewHolder.solution2.setText(getChild(groupPosition, childPosition).getSolution2());
 
 		return v;
 	}
@@ -133,9 +137,11 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
 		public TextView index;
 		public TextView title;
-		public TextView childText;
 		public ImageView riskImg;
 
+		public TextView snippet;
+		public TextView solution1;
+		public TextView solution2;
 	}
 
 }

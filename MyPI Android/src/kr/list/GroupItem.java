@@ -3,17 +3,17 @@ package kr.list;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-public class IconTextItem {
+public class GroupItem {
 
 	private Drawable mIcon;
 	private String[] mData;
 
-	public IconTextItem(Drawable icon, String[] obj) {
+	public GroupItem(Drawable icon, String[] obj) {
 		mIcon = icon;
 		mData = obj;
 	}
 
-	public IconTextItem(String num, String title, Drawable riskImg) {
+	public GroupItem(String num, String title, Drawable riskImg) {
 		mIcon = riskImg;
 
 		mData = new String[2];
@@ -48,7 +48,7 @@ public class IconTextItem {
 	}
 
 	// 다른 데이터와 비교해서 다르면 -1 리턴 아니면 오류
-	public int compareTo(IconTextItem other) {
+	public int compareTo(GroupItem other) {
 		if (mData != null) {
 			String[] otherData = other.getData();
 			if (mData.length == otherData.length) {

@@ -13,17 +13,17 @@ public class IconTextListAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<IconTextItem> mItems = new ArrayList<IconTextItem>();
+	private List<GroupItem> mItems = new ArrayList<GroupItem>();
 
 	public IconTextListAdapter(Context context) {
 		mContext = context;
 	}
 
-	public void addItem(IconTextItem it) {
+	public void addItem(GroupItem it) {
 		mItems.add(it);
 	}
 	
-	public void setListItems(List<IconTextItem> lit) {
+	public void setListItems(List<GroupItem> lit) {
 		mItems = lit;
 	}
 	

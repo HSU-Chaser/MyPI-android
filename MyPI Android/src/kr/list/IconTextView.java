@@ -14,7 +14,7 @@ public class IconTextView extends LinearLayout {
 	private TextView mText02;
 	private ImageView mIcon;
 
-	public IconTextView(Context context, IconTextItem aItem) {
+	public IconTextView(Context context, GroupItem aItem) {
 		super(context);
 
 		// Layout Inflation

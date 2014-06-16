@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import kr.list.DataListView;
-import kr.list.IconTextItem;
+import kr.list.GroupItem;
 import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 import kr.object.StaticItem;
@@ -247,8 +247,10 @@ public class ResultActivity extends Activity {
 				else if (exposure < 20)
 					riskImg = riskImgArray[0];
 
-				DynamicResultActivity.mGroupList.add(new IconTextItem(i + 1
+				DynamicResultActivity.mGroupList.add(new GroupItem(i + 1
 						+ "", dynamicResult.get(i).getTitle(), riskImg));
+				
+				
 
 			} catch (JSONException e) {
 				e.printStackTrace();
