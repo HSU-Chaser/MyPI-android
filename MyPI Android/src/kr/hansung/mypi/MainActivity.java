@@ -14,8 +14,8 @@ public class MainActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_main);
 
-		Button testBtn = (Button) findViewById(R.id.loginBtn);
-		testBtn.setOnClickListener(new OnClickListener() {
+		Button loginBtn = (Button) findViewById(R.id.loginBtn);
+		loginBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,

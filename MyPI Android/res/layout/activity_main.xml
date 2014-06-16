@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/EmailLabel"
             android:layout_alignBottom="@+id/EmailLabel"
+            android:layout_alignRight="@+id/passwordEntry"
             android:layout_toRightOf="@+id/passwordLabel"
             android:ems="10" >
 
@@ -112,7 +113,7 @@
         android:layout_alignParentLeft="true"
         android:background="#64000000"
         android:gravity="center_horizontal"
-        android:text="© Copyright Team Chaser" 
-        android:textSize="10sp"/>
+        android:text="© Team Chaser" 
+        android:textSize="12sp"/>
 
 </RelativeLayout>
