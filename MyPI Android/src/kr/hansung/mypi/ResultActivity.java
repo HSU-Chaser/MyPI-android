@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import kr.list.DataListView;
 import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
+import kr.object.StaticItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,9 +42,13 @@ public class ResultActivity extends Activity {
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
-	ArrayList<SearchResult> result;
+
+	String grade, gradeExp;
+	ArrayList<String> imageResult;
+	ArrayList<StaticItem> staticResult;
+	ArrayList<SearchResult> dynamicResult;
 	ViewGroup.LayoutParams params;
-	JSONArray mArray;
+
 	TextView tv;
 
 	TextView safeText1, safeText2;
@@ -100,7 +105,7 @@ public class ResultActivity extends Activity {
 		});
 	}
 
-	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
+	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONObject> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -112,10 +117,10 @@ public class ResultActivity extends Activity {
 		}
 
 		@Override
-		protected JSONArray doInBackground(Void... params) {
+		protected JSONObject doInBackground(Void... params) {
 			HttpURLConnection conn = null;
 			StringBuffer buffer = null;
-			JSONArray array = null;
+			JSONObject array = null;
 
 			try {
 				// Build URL
@@ -135,7 +140,7 @@ public class ResultActivity extends Activity {
 					Log.i("Data", read);
 					buffer.append(read);
 				}
-				array = new JSONArray(buffer.toString());
+				array = new JSONObject(buffer.toString());
 				// Close
 				br.close();
 				isr.close();
@@ -150,34 +155,13 @@ public class ResultActivity extends Activity {
 
 		// 받아오는것이 완료된 시점
 		@Override
-		protected void onPostExecute(JSONArray array) {
-			super.onPostExecute(array);
+		protected void onPostExecute(JSONObject object) {
+			super.onPostExecute(object);
 			mDialog.dismiss();
 
-			mArray = array;
+			parseJSON(object);
 
-			Log.d("TEST", array.length() + "");
-
-			result = new ArrayList<SearchResult>();
-			for (int i = 0; i < mArray.length(); i++) {
-				try {
-					JSONObject object = (JSONObject) mArray.get(i);
-
-					result.add(new SearchResult(object.getString("engine"),
-							object.getString("title"), object.getString("URL"),
-							object.getString("snippet"), object
-									.getString("searchPage"), object
-									.getDouble("exposure")));
-					// 여기서는 result페이지에 나오는 static 부분에 대한 파싱이 필요함
-
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			Log.d("TEST", result.size() + "");
-
+			// UI Update
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -189,6 +173,67 @@ public class ResultActivity extends Activity {
 				}
 			});
 			t.start();
+		}
+	}
+
+	private void parseJSON(JSONObject object) {
+		String grade = null;
+		String gradeExp = null;
+		JSONArray imageSearch = null;
+		JSONArray staticSearch = null;
+		JSONArray dynamicSearch = null;
+
+		try {
+			grade = object.getString("grade");
+			gradeExp = object.getString("gradeExp");
+			imageSearch = object.getJSONArray("image");
+			staticSearch = object.getJSONArray("static");
+			dynamicSearch = object.getJSONArray("dynamic");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		// Grade
+		this.grade = grade;
+		this.gradeExp = gradeExp;
+
+		// Image Search
+		imageResult = new ArrayList<String>();
+		for (int i = 0; i < imageSearch.length(); i++) {
+			try {
+				JSONObject item = (JSONObject) imageSearch.get(i);
+				imageResult.add(item.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Static Search
+		staticResult = new ArrayList<StaticItem>();
+		for (int i = 0; i < staticSearch.length(); i++) {
+			try {
+				JSONObject item = (JSONObject) staticSearch.get(i);
+
+				staticResult.add(new StaticItem(item.getString("siteImage"),
+						item.getString("siteName"), item.getString("url")));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Dynamic Search
+		dynamicResult = new ArrayList<SearchResult>();
+		for (int i = 0; i < dynamicSearch.length(); i++) {
+			try {
+				JSONObject item = (JSONObject) dynamicSearch.get(i);
+
+				dynamicResult.add(new SearchResult(item.getString("engine"),
+						item.getString("title"), item.getString("URL"), item
+								.getString("snippet"), item
+								.getString("searchPage"), item
+								.getDouble("exposure")));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
