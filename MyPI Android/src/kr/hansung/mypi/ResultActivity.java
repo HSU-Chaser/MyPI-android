@@ -156,7 +156,7 @@ public class ResultActivity extends Activity {
 
 			mArray = array;
 
-			Log.d("TEST", array.length() + "");
+//			Log.d("TEST", array.length() + "");
 
 			result = new ArrayList<SearchResult>();
 			for (int i = 0; i < mArray.length(); i++) {

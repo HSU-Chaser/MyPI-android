@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 
 public class IconTextListAdapter extends BaseAdapter {
 
@@ -51,7 +52,7 @@ public class IconTextListAdapter extends BaseAdapter {
 			
 			itemView.setText(0, mItems.get(position).getData(0));
 			itemView.setText(1, mItems.get(position).getData(1));
-			itemView.setIcon(mItems.get(position).getIcon());
+//			itemView.setDraw(mItems.get(position).getIcon());
 		}
 
 		return itemView;

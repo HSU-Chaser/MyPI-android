@@ -6,9 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import kr.list.DataListView;
+import kr.list.BaseExpandableAdapter;
 import kr.list.IconTextItem;
-import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 
 import org.json.JSONArray;
@@ -28,6 +27,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,7 +35,11 @@ import android.widget.TextView;
 public class DynamicResultActivity extends Activity {
 	private BackPressCloseHandler backHandler;
 	private ExpandableListView mListView;
-
+	
+	private ArrayList<IconTextItem> mGroupList = null;
+    private ArrayList<ArrayList<String>> mChildList = null;
+    private ArrayList<String> mChildListContent = null;
+    
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
@@ -44,44 +48,31 @@ public class DynamicResultActivity extends Activity {
 	JSONArray mArray;
 	TextView tv;
 	Button resultBtn;
-
-	DataListView list;
-	IconTextListAdapter adapter;
-	Drawable[] riskImgArray;
-	Drawable riskImg;
+//
+//	DataListView list;
+//	IconTextListAdapter adapter;
+	ImageView[] riskImgArray;
+	ImageView riskImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_dynamic_result);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-//		setContentView(R.layout.activity_result);
 		backHandler = new BackPressCloseHandler(this);
-		params = new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-		// Intent intent = getIntent();
-		// tv = (TextView) findViewById(R.id.plain);
-		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
-
-		// ListView resultList = (ListView) findViewById(R.id.result_list);
-
 		
-		riskImgArray = new Drawable[3];
+		riskImgArray = new ImageView[3];
+		riskImgArray[0].setImageDrawable(getResources().getDrawable(R.drawable.risk_low));
+		riskImgArray[1].setImageDrawable(getResources().getDrawable(R.drawable.risk_mid));
+		riskImgArray[2].setImageDrawable(getResources().getDrawable(R.drawable.risk_high));
 
-		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
-		riskImgArray[1] = getResources().getDrawable(R.drawable.risk_mid);
-		riskImgArray[2] = getResources().getDrawable(R.drawable.risk_high);
-
-		list = new DataListView(this);
-		adapter = new IconTextListAdapter(this);
+//		list = new DataListView(this);
+//		adapter = new IconTextListAdapter(this);
 	
 		new ResultTask().execute();
 	}
-
 
 	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
@@ -137,7 +128,12 @@ public class DynamicResultActivity extends Activity {
 			super.onPostExecute(array);
 			mDialog.dismiss();
 
-			mArray = array;
+			try {
+				mArray = array.getJSONArray(5);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			Log.d("TEST", array.length() + "");
 
@@ -145,7 +141,8 @@ public class DynamicResultActivity extends Activity {
 			for (int i = 0; i < mArray.length(); i++) {
 				try {
 					JSONObject object = (JSONObject) mArray.get(i);
-
+					IconTextItem groupItem;
+					
 					result.add(new SearchResult(object.getString("engine"),
 							object.getString("title"), object.getString("URL"),
 							object.getString("snippet"), object
@@ -158,12 +155,11 @@ public class DynamicResultActivity extends Activity {
 					else if(exposure < 120 && exposure >= 20) riskImg = riskImgArray[1];
 					else if(exposure < 20) riskImg = riskImgArray[0];
 					
-					adapter.addItem(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
-
-					list.setAdapter(adapter);
 					
 					
-					DynamicResultActivity.this.setContentView(list, params);
+					
+					mGroupList.add(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
+					mChildListContent.add("아들 테스팅");
 					
 					
 				} catch (JSONException e) {
@@ -180,6 +176,8 @@ public class DynamicResultActivity extends Activity {
 					runOnUiThread(new Runnable() {
 						public void run() {
 
+							mListView.setAdapter(new BaseExpandableAdapter(DynamicResultActivity.this , mGroupList, mChildList));
+							
 						}
 					});
 				}

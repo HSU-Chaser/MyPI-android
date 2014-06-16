@@ -21,15 +21,16 @@ public class IconTextView extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.listitem, this, true);
  
-        mText01 = (TextView) findViewById(R.id.dataItem01);
-        mText01.setText(aItem.getData(0));
-
-        mText02 = (TextView) findViewById(R.id.dataItem02);
-        mText02.setText(aItem.getData(1));
-        
-        mIcon = (ImageView) findViewById(R.id.iconItem);
-        mIcon.setImageDrawable(aItem.getIcon());
-  
+		
+//        mText01 = (TextView) findViewById(R.id.);
+//        mText01.setText(aItem.getData(0));
+//
+//        mText02 = (TextView) findViewById(R.id.dataItem02);
+//        mText02.setText(aItem.getData(1));
+//        
+//        mIcon = (ImageView) findViewById(R.id.iconItem);
+//        mIcon.setImageDrawable(aItem.getIcon());
+//  
     }
 
 	public void setText(int index, String data) {

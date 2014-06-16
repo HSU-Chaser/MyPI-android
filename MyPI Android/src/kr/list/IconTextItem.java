@@ -1,18 +1,19 @@
 package kr.list;
 
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 public class IconTextItem {
 
-	private Drawable mIcon;
+	private ImageView mIcon;
 	private String[] mData;
 
-	public IconTextItem(Drawable icon, String[] obj) {
+	public IconTextItem(ImageView icon, String[] obj) {
 		mIcon = icon;
 		mData = obj;
 	}
 
-	public IconTextItem(String num, String title, Drawable riskImg) {
+	public IconTextItem(String num, String title, ImageView riskImg) {
 		mIcon = riskImg;
 		
 		mData = new String[2];
@@ -39,11 +40,11 @@ public class IconTextItem {
 		mData = obj;
 	}
 
-	public void setIcon(Drawable icon) {
+	public void setIcon(ImageView icon) {
 		mIcon = icon;
 	}
 
-	public Drawable getIcon() {
+	public ImageView getIcon() {
 		return mIcon;
 	}
 	
