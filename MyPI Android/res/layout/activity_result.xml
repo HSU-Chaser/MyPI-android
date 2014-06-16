@@ -20,7 +20,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:divider="#00ffffff" >
+                android:background="#00ffffff"
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/listLayout"
@@ -340,6 +341,12 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
+                <ExpandableListView
+                    android:id="@+id/expandList"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:groupIndicator="@null" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

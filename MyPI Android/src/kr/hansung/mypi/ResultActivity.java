@@ -25,54 +25,70 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ResultActivity extends Activity {
 	private BackPressCloseHandler backHandler;
+	private ResultActivity resultActivity = this;
+	private ExpandableListView mListView;
+
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
 	ArrayList<SearchResult> result;
+	ViewGroup.LayoutParams params;
 	JSONArray mArray;
 	TextView tv;
+	
 
 	DataListView list;
 	IconTextListAdapter adapter;
-	Drawable[] riskImg;
+	Drawable[] riskImgArray;
+	Drawable riskImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.activity_result);
+		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		setContentView(R.layout.activity_result);
+//		setContentView(R.layout.activity_result);
 		backHandler = new BackPressCloseHandler(this);
+		params = new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
 		// Intent intent = getIntent();
 		// tv = (TextView) findViewById(R.id.plain);
 		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
-		riskImg = new Drawable[3];
+		riskImgArray = new Drawable[3];
 
-		riskImg[0] = getResources().getDrawable(R.drawable.risk_low);
-		riskImg[1] = getResources().getDrawable(R.drawable.risk_mid);
-		riskImg[2] = getResources().getDrawable(R.drawable.risk_high);
+		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
+		riskImgArray[1] = getResources().getDrawable(R.drawable.risk_mid);
+		riskImgArray[2] = getResources().getDrawable(R.drawable.risk_high);
 
 		list = new DataListView(this);
 		adapter = new IconTextListAdapter(this);
-		
-		adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0));
-		adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1));
-		adapter.addItem(new IconTextItem("3", "제목이 나와야 할 부분", riskImg[2));
-		
-		list.setAdapter(adapter);
-
+	
+//		adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0]));
+//		adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1]));
+	
 		new ResultTask().execute();
 	}
 
+	private void setLayout(){
+		mListView = (ExpandableListView) findViewById(R.id.expandList);
+	}
+
+	
 	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
 		protected void onPreExecute() {
@@ -141,6 +157,21 @@ public class ResultActivity extends Activity {
 							object.getString("snippet"), object
 									.getString("searchPage"), object
 									.getDouble("exposure")));
+					
+					//index, title, riskImg
+					double exposure = result.get(i).getExposure();
+					if(exposure >= 120) riskImg = riskImgArray[2];
+					else if(exposure < 120 && exposure >= 20) riskImg = riskImgArray[1];
+					else if(exposure < 20) riskImg = riskImgArray[0];
+					
+					adapter.addItem(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
+
+					list.setAdapter(adapter);
+					
+					
+					
+					
+					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
