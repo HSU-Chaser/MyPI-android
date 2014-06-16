@@ -60,21 +60,17 @@ public class DynamicResultActivity extends Activity {
 		setLayout();
 
 		mChildList.clear();
-		mChildListContent.clear();
+
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		backHandler = new BackPressCloseHandler(this);
 
-
-		
-		//데이터가 들어가면됨
-//		mChildListContent.add("12345");
-		
-		
 		
 		for (int i = 0; i < mGroupList.size(); i++) {
-			mChildList.add(mChildListContent);
+			ArrayList<ChildItem> tmpChild = new ArrayList<ChildItem>();
+			tmpChild.add(mChildListContent.get(i));
+			mChildList.add(tmpChild);
 		}
 
 		mBaseExpandableAdapter = new BaseExpandableAdapter(this, mGroupList,
@@ -82,13 +78,7 @@ public class DynamicResultActivity extends Activity {
 
 		mListView.setAdapter(mBaseExpandableAdapter);
 
-		// if (result.get(i).getEngine().matches(".*Naver.*") == true) {
-		//
-		// } else if (result.get(i).getEngine().matches(".*Daum.*") == true) {
-		//
-		// } else if (result.get(i).getEngine().matches(".*Google.*") == true) {
-		//
-		// }
+
 
 		// 그룹 클릭 했을 경우 이벤트
 		mListView.setOnGroupClickListener(new OnGroupClickListener() {

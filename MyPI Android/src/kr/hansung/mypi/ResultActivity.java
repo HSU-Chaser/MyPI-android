@@ -6,9 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import kr.list.DataListView;
+import kr.list.ChildItem;
 import kr.list.GroupItem;
-import kr.list.IconTextListAdapter;
 import kr.object.SearchResult;
 import kr.object.StaticItem;
 
@@ -30,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -228,6 +226,7 @@ public class ResultActivity extends Activity {
 		// Dynamic Search
 		dynamicResult = new ArrayList<SearchResult>();
 		DynamicResultActivity.mGroupList.clear();
+		DynamicResultActivity.mChildListContent.clear();
 
 		for (int i = 0; i < dynamicSearch.length(); i++) {
 			try {
@@ -247,10 +246,16 @@ public class ResultActivity extends Activity {
 				else if (exposure < 20)
 					riskImg = riskImgArray[0];
 
-				DynamicResultActivity.mGroupList.add(new GroupItem(i + 1
-						+ "", dynamicResult.get(i).getTitle(), riskImg));
-				
-				
+				DynamicResultActivity.mGroupList.add(new GroupItem(i + 1 + "",
+						dynamicResult.get(i).getTitle(), riskImg));
+
+				String[] solution = {,};
+				solution = getSolution(dynamicResult.get(i).getEngine(),
+						dynamicResult.get(i).getURL());
+
+				DynamicResultActivity.mChildListContent.add(new ChildItem(
+						dynamicResult.get(i).getSnippet(), solution[0],
+						solution[1]));
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -258,6 +263,49 @@ public class ResultActivity extends Activity {
 		}
 
 		// DynamicResultActivity 에서 사용할 재료들을 저장시켜준
+
+	}
+
+	public String[] getSolution(String engine, String url) {
+
+		String solution1 = null, solution2 = null;
+		String solution[] = { solution1, solution2 };
+
+		if (engine.matches(".*Naver.*") == true) {
+
+		} else if (engine.matches(".*Daum.*") == true) {
+
+		} else if (engine.matches(".*Google.*") == true) {
+
+		}
+
+		if (url.matches(".*blog.naver.*") == true) {
+
+		} else if (url.matches(".*kin.naver.*") == true) {
+
+		} else if (url.matches(".*blog.cyworld.*") == true) {
+
+		} else if (url.matches(".*cyworld.*") == true) {
+
+		} else if (url.matches(".*blog.daum.*") == true) {
+
+		} else if (url.matches(".*dreamwiz.*") == true) {
+
+		} else if (url.matches(".*egloos.*") == true) {
+
+		} else if (url.matches(".*gallog.*") == true) {
+
+		} else if (url.matches(".*me2day.*") == true) {
+
+		} else if (url.matches(".*tistory.*") == true) {
+
+		} else if (url.matches(".*todayhumor.*") == true) {
+
+		} else if (url.matches(".*twitter.*") == true) {
+
+		}
+
+		return solution;
 
 	}
 
