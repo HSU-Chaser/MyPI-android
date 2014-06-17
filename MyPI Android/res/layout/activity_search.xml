@@ -71,11 +71,11 @@
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/helpBtn"
             android:background="@drawable/search"
-            android:minHeight="117px"
-            android:minWidth="108px"
+            android:minHeight="130px"
+            android:minWidth="120px"
             android:scaleType="fitCenter" />
 
     </RelativeLayout>
