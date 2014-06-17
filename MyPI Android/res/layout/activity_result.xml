@@ -46,7 +46,7 @@
                             android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2014-06-14   tera16님의 검색 결과"
+                            android:text=""
                             android:textColor="#ffffff" />
                     </LinearLayout>
 
@@ -74,7 +74,8 @@
                             android:id="@+id/gradeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="" />
+                            android:text=""
+                            android:textColor="#ffffff" />
 
                         <TextView
                             android:id="@+id/gradeExpText"

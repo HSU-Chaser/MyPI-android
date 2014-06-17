@@ -65,7 +65,8 @@ public class SignUpActivity extends BaseActivity {
 				Log.i("param", param);
 
 				try {
-					URL url = new URL("http://mypi.co.kr/mobileSignup.jsp");
+					URL url = new URL(
+							"http://mypi.co.kr/mobileSignup.jsp");
 					conn = (HttpURLConnection) url.openConnection();
 					conn.setRequestMethod("POST");
 					conn.setDoInput(true);
@@ -103,14 +104,14 @@ public class SignUpActivity extends BaseActivity {
 			if (result) {
 				Toast.makeText(getApplicationContext(), "회원가입 완료",
 						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(getApplicationContext(),
+						MainActivity.class);
+				startActivity(intent);
+				finish();
 			} else {
 				Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요",
 						Toast.LENGTH_SHORT).show();
 			}
-			Intent intent = new Intent(getApplicationContext(),
-					MainActivity.class);
-			startActivity(intent);
-			finish();
 		}
 	}
 

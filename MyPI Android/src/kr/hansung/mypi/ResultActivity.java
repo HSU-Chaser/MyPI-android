@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import kr.list.ChildItem;
 import kr.list.GroupItem;
@@ -73,6 +74,13 @@ public class ResultActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_result);
+
+		final Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		tv = (TextView) findViewById(R.id.gradeText);
+		tv.setText(year + "-" + month + "-" + day + "   " + "검색 결과");
 
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
