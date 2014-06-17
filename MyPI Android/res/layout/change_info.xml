@@ -2,11 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll1"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg02" >
 
     <RelativeLayout
+        android:id="@+id/info_box"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="#99ffffff"
         android:orientation="vertical"
         tools:context=".ChangeInfoActivity" >
 
@@ -110,8 +117,6 @@
             android:ems="10"
             android:hint="이름을 입력하세요."
             android:inputType="textPersonName" >
-
-            <requestFocus />
         </EditText>
 
         <EditText
@@ -123,7 +128,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:ems="10"
-            android:hint="" />
+            android:inputType="textPostalAddress" />
 
         <TextView
             android:id="@+id/jobplaceDetail"
@@ -143,6 +148,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:ems="10"
+            android:inputType="textPostalAddress"
             android:hint="ex)한성대" />
 
         <TextView
@@ -163,7 +169,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:ems="10"
-            android:hint="" />
+             android:inputType="textPostalAddress" />
 
         <TextView
             android:id="@+id/homeaddressDetail"
@@ -194,7 +200,8 @@
             android:layout_alignBottom="@+id/jobText"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:ems="10" />
+            android:ems="10" 
+             android:inputType="text"/>
 
         <EditText
             android:id="@+id/homephoneEdit"
