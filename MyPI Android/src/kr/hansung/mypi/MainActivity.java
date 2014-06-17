@@ -137,6 +137,8 @@ public class MainActivity extends BaseActivity {
 
 			// 요청 결과
 			if (result) {
+				Toast.makeText(MainActivity.this, "로그인을 성공하였습니다.",
+						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(getApplicationContext(),
 						SearchActivity.class);
 				startActivity(intent);

@@ -22,7 +22,7 @@ public class ChangeInfoActivity extends BaseActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 
-		setContentView(R.layout.change_info);
+		setContentView(R.layout.activity_changeinfo);
 
 		// accept
 		Button okBtn = (Button) findViewById(R.id.okbtn);

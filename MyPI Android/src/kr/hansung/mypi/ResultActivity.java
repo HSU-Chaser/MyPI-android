@@ -129,6 +129,8 @@ public class ResultActivity extends BaseActivity {
 			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			mDialog.setTitle("MyPI");
 			mDialog.setMessage("결과를 분석중입니다...");
+			mDialog.setCancelable(false);
+			mDialog.setCanceledOnTouchOutside(false);
 			mDialog.show();
 		}
 
