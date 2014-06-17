@@ -1,39 +1,40 @@
 package kr.hansung.mypi;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
-import kr.list.DataListView;
-import kr.list.IconTextItem;
-import kr.list.IconTextListAdapter;
+import kr.list.BaseExpandableAdapter;
+import kr.list.ChildItem;
+import kr.list.GroupItem;
 import kr.object.SearchResult;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DynamicResultActivity extends BaseActivity {
-	private BackPressCloseHandler backHandler;
 	private ExpandableListView mListView;
+
+	public static ArrayList<GroupItem> mGroupList = new ArrayList<GroupItem>();
+	public static ArrayList<ChildItem> mChildListContent = new ArrayList<ChildItem>();
+	private ArrayList<ArrayList<ChildItem>> mChildList = new ArrayList<ArrayList<ChildItem>>();
+	private BaseExpandableAdapter mBaseExpandableAdapter = null;
 
 	RelativeLayout layout;
 	ProgressBar mProgress;
@@ -44,147 +45,108 @@ public class DynamicResultActivity extends BaseActivity {
 	TextView tv;
 	Button resultBtn;
 
-	DataListView list;
-	IconTextListAdapter adapter;
-	Drawable[] riskImgArray;
-	Drawable riskImg;
+	//
+	// DataListView list;
+	// IconTextListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_dynamic_result);
+
+		setLayout();
+
+		mChildList.clear();
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// setContentView(R.layout.activity_result);
-		backHandler = new BackPressCloseHandler(this);
-		params = new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
-		// Intent intent = getIntent();
-		// tv = (TextView) findViewById(R.id.plain);
-		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
 
-		// ListView resultList = (ListView) findViewById(R.id.result_list);
+		for (int i = 0; i < mGroupList.size(); i++) {
+			ArrayList<ChildItem> tmpChild = new ArrayList<ChildItem>();
+			tmpChild.add(mChildListContent.get(i));
+			mChildList.add(tmpChild);
+		}
 
-		riskImgArray = new Drawable[3];
+		mBaseExpandableAdapter = new BaseExpandableAdapter(this, mGroupList,
+				mChildList);
 
-		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
-		riskImgArray[1] = getResources().getDrawable(R.drawable.risk_mid);
-		riskImgArray[2] = getResources().getDrawable(R.drawable.risk_high);
+		mListView.setAdapter(mBaseExpandableAdapter);
 
-		list = new DataListView(this);
-		adapter = new IconTextListAdapter(this);
+		// 그룹 클릭 했을 경우 이벤트
+		mListView.setOnGroupClickListener(new OnGroupClickListener() {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				// Toast.makeText(getApplicationContext(),
+				// "g click = " + groupPosition, Toast.LENGTH_SHORT)
+				// .show();
 
-		new ResultTask().execute();
+				// Listener 에서 Adapter 사용법 (getExpandableListAdapter 사용해야함.)
+				// BaseExpandableAdpater에 오버라이드 된 함수들을 사용할 수 있다.
+				int groupCount = (int) parent.getExpandableListAdapter()
+						.getGroupCount();
+				int childCount = (int) parent.getExpandableListAdapter()
+						.getChildrenCount(groupPosition);
+
+				return false;
+			}
+		});
+
+		mListView.setOnChildClickListener(new OnChildClickListener() {
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+
+				// parent.getExpandableListAdapter().getGroup(groupPosition).
+
+				return false;
+			}
+
+		});
+
+		// 차일드 클릭 했을 경우 이벤트
+		mListView.setOnChildClickListener(new OnChildClickListener() {
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				Toast.makeText(getApplicationContext(),
+						"c click = " + childPosition, Toast.LENGTH_SHORT)
+						.show();
+				return false;
+			}
+		});
+
+		// 그룹이 닫힐 경우 이벤트
+		mListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+			@Override
+			public void onGroupCollapse(int groupPosition) {
+
+			}
+		});
+
+		// 그룹이 열릴 경우 이벤트
+		mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				// Toast.makeText(getApplicationContext(),
+				// "g Expand = " + groupPosition, Toast.LENGTH_SHORT)
+				// .show();
+
+				int groupCount = mBaseExpandableAdapter.getGroupCount();
+
+				// 한 그룹을 클릭하면 나머지 그룹들은 닫힌다.
+				for (int i = 0; i < groupCount; i++) {
+					if (!(i == groupPosition))
+						mListView.collapseGroup(i);
+				}
+			}
+		});
+
 	}
 
-	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			mDialog = new ProgressDialog(DynamicResultActivity.this);
-			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			mDialog.setTitle("MyPI");
-			mDialog.setMessage("결과를 분석중입니다...");
-			mDialog.show();
-		}
-
-		@Override
-		protected JSONArray doInBackground(Void... params) {
-			HttpURLConnection conn = null;
-			StringBuffer buffer = null;
-			JSONArray array = null;
-
-			try {
-				// Build URL
-				URL url = new URL("http://mypi.co.kr/json.txt");
-				// Connect
-				conn = (HttpURLConnection) url.openConnection();
-				conn.setRequestMethod("GET");
-				conn.setRequestProperty("Accept", "application/json");
-				// Read
-				InputStreamReader isr = new InputStreamReader(
-						conn.getInputStream(), "UTF-8");
-				BufferedReader br = new BufferedReader(isr);
-				// Save
-				String read;
-				buffer = new StringBuffer();
-				while ((read = br.readLine()) != null) {
-					Log.i("Data", read);
-					buffer.append(read);
-				}
-				array = new JSONArray(buffer.toString());
-				// Close
-				br.close();
-				isr.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				conn.disconnect();
-			}
-
-			return array;
-		}
-
-		// 받아오는것이 완료된 시점
-		@Override
-		protected void onPostExecute(JSONArray array) {
-			super.onPostExecute(array);
-			mDialog.dismiss();
-
-			mArray = array;
-
-			Log.d("TEST", array.length() + "");
-
-			result = new ArrayList<SearchResult>();
-			for (int i = 0; i < mArray.length(); i++) {
-				try {
-					JSONObject object = (JSONObject) mArray.get(i);
-
-					result.add(new SearchResult(object.getString("engine"),
-							object.getString("title"), object.getString("URL"),
-							object.getString("snippet"), object
-									.getString("searchPage"), object
-									.getDouble("exposure")));
-
-					// index, title, riskImg
-					double exposure = result.get(i).getExposure();
-					if (exposure >= 120)
-						riskImg = riskImgArray[2];
-					else if (exposure < 120 && exposure >= 20)
-						riskImg = riskImgArray[1];
-					else if (exposure < 20)
-						riskImg = riskImgArray[0];
-
-					adapter.addItem(new IconTextItem(i + 1 + "", result.get(i)
-							.getTitle(), riskImg));
-
-					list.setAdapter(adapter);
-
-					DynamicResultActivity.this.setContentView(list, params);
-
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			Log.d("TEST", result.size() + "");
-
-			Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					runOnUiThread(new Runnable() {
-						public void run() {
-
-						}
-					});
-				}
-			});
-			t.start();
-		}
+	private void setLayout() {
+		mListView = (ExpandableListView) findViewById(R.id.list);
 	}
 
 	// Action Bar Menu Control

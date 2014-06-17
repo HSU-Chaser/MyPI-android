@@ -7,22 +7,23 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 
 public class IconTextListAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<IconTextItem> mItems = new ArrayList<IconTextItem>();
+	private List<GroupItem> mItems = new ArrayList<GroupItem>();
 
 	public IconTextListAdapter(Context context) {
 		mContext = context;
 	}
 
-	public void addItem(IconTextItem it) {
+	public void addItem(GroupItem it) {
 		mItems.add(it);
 	}
 	
-	public void setListItems(List<IconTextItem> lit) {
+	public void setListItems(List<GroupItem> lit) {
 		mItems = lit;
 	}
 	
@@ -51,7 +52,7 @@ public class IconTextListAdapter extends BaseAdapter {
 			
 			itemView.setText(0, mItems.get(position).getData(0));
 			itemView.setText(1, mItems.get(position).getData(1));
-			itemView.setIcon(mItems.get(position).getIcon());
+//			itemView.setDraw(mItems.get(position).getIcon());
 		}
 
 		return itemView;
