@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="kr.hansung.mypi.DynamicResultActivity$PlaceholderFragment" >
+    android:background="@drawable/bg03" >
 
     <ExpandableListView
         android:id="@+id/list"

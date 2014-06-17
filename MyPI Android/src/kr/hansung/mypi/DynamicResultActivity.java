@@ -52,14 +52,13 @@ public class DynamicResultActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_dynamic_result);
 
 		setLayout();
 
 		mChildList.clear();
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(false);
 
 		for (int i = 0; i < mGroupList.size(); i++) {
 			ArrayList<ChildItem> tmpChild = new ArrayList<ChildItem>();
@@ -162,7 +161,7 @@ public class DynamicResultActivity extends BaseActivity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(DynamicResultActivity.this, MainActivity.class);
+			intent = new Intent(DynamicResultActivity.this, SearchActivity.class);
 			startActivity(intent);
 			finish();
 			break;

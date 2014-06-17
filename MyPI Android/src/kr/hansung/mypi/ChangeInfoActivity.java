@@ -13,14 +13,14 @@ public class ChangeInfoActivity extends BaseActivity {
 		setContentView(R.layout.change_info);
 
 	}
-	
+
 	// Action Bar Menu Control
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(getApplicationContext(), MainActivity.class);
+			intent = new Intent(getApplicationContext(), SearchActivity.class);
 			startActivity(intent);
 			finish();
 			break;

@@ -1,243 +1,264 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll1"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg02"
+    android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        tools:context=".ChangeInfoActivity" >
+    <ScrollView
+        android:id="@+id/scroll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/changeinfo_title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="정보 수정"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#804D9BB7" >
 
-        <TextView
-            android:id="@+id/nameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="100dp"
-            android:text="이름"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/changeinfo_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="정보 수정"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/birthText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/homephoneText"
-            android:layout_below="@+id/homephoneText"
-            android:layout_marginTop="70dp"
-            android:text="생년월일"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="100dp"
+                android:text="이름"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/homeaddressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/birthText"
-            android:layout_below="@+id/birthText"
-            android:layout_marginTop="70dp"
-            android:text="집주소"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/birthText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/homephoneText"
+                android:layout_below="@+id/homephoneText"
+                android:layout_marginTop="70dp"
+                android:text="생년월일"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/jobplaceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/schoolText"
-            android:layout_below="@+id/schoolText"
-            android:layout_marginTop="70dp"
-            android:text="직장주소"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/homeaddressText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/birthText"
+                android:layout_below="@+id/birthText"
+                android:layout_marginTop="70dp"
+                android:text="집주소"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/schoolText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/homeaddressText"
-            android:layout_below="@+id/homeaddressText"
-            android:layout_marginTop="70dp"
-            android:text="학교"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/jobplaceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/schoolText"
+                android:layout_below="@+id/schoolText"
+                android:layout_marginTop="70dp"
+                android:text="직장주소"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/jobText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/jobplaceText"
-            android:layout_below="@+id/jobplaceText"
-            android:layout_marginTop="70dp"
-            android:text="직업"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/schoolText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/homeaddressText"
+                android:layout_below="@+id/homeaddressText"
+                android:layout_marginTop="70dp"
+                android:text="학교"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/homephoneText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/handphoneText"
-            android:layout_below="@+id/handphoneText"
-            android:layout_marginTop="70dp"
-            android:text="집전화"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/jobText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/jobplaceText"
+                android:layout_below="@+id/jobplaceText"
+                android:layout_marginTop="70dp"
+                android:text="직업"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/handphoneText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/nameText"
-            android:layout_below="@+id/nameText"
-            android:layout_marginTop="70dp"
-            android:text="휴대전화"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/homephoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/handphoneText"
+                android:layout_below="@+id/handphoneText"
+                android:layout_marginTop="70dp"
+                android:text="집전화"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/nameEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/nameText"
-            android:layout_alignBottom="@+id/nameText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="이름을 입력하세요."
-            android:inputType="textPersonName" >
+            <TextView
+                android:id="@+id/handphoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/nameText"
+                android:layout_below="@+id/nameText"
+                android:layout_marginTop="70dp"
+                android:text="휴대전화"
+                android:textStyle="bold" />
 
-            <requestFocus />
-        </EditText>
+            <EditText
+                android:id="@+id/nameEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/nameText"
+                android:layout_alignBottom="@+id/nameText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="이름을 입력하세요."
+                android:inputType="textPersonName" >
 
-        <EditText
-            android:id="@+id/jobplaceEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/jobplaceText"
-            android:layout_alignBottom="@+id/jobplaceText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="" />
+                <requestFocus />
+            </EditText>
 
-        <TextView
-            android:id="@+id/jobplaceDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/jobplaceEdit"
-            android:layout_below="@+id/jobplaceEdit"
-            android:layout_marginTop="10dp"
-            android:text="&apos;동&apos;까지만 입력" />
+            <EditText
+                android:id="@+id/jobplaceEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/jobplaceText"
+                android:layout_alignBottom="@+id/jobplaceText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="" />
 
-        <EditText
-            android:id="@+id/schoolEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/schoolText"
-            android:layout_alignBottom="@+id/schoolText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="ex)한성대" />
+            <TextView
+                android:id="@+id/jobplaceDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/jobplaceEdit"
+                android:layout_below="@+id/jobplaceEdit"
+                android:layout_marginTop="10dp"
+                android:text="&apos;동&apos;까지만 입력" />
 
-        <TextView
-            android:id="@+id/schoolDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/schoolEdit"
-            android:layout_below="@+id/schoolEdit"
-            android:layout_marginTop="10dp"
-            android:text="&apos;고&apos;또는&apos;대&apos;까지만 입력" />
+            <EditText
+                android:id="@+id/schoolEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/schoolText"
+                android:layout_alignBottom="@+id/schoolText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="ex)한성대" />
 
-        <EditText
-            android:id="@+id/homeaddressEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/homeaddressText"
-            android:layout_alignBottom="@+id/homeaddressText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="" />
+            <TextView
+                android:id="@+id/schoolDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/schoolEdit"
+                android:layout_below="@+id/schoolEdit"
+                android:layout_marginTop="10dp"
+                android:text="&apos;고&apos;또는&apos;대&apos;까지만 입력" />
 
-        <TextView
-            android:id="@+id/homeaddressDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/homeaddressEdit"
-            android:layout_below="@+id/homeaddressEdit"
-            android:layout_marginTop="10dp"
-            android:text="&apos;동&apos;까지만 입력" />
+            <EditText
+                android:id="@+id/homeaddressEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/homeaddressText"
+                android:layout_alignBottom="@+id/homeaddressText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="" />
 
-        <EditText
-            android:id="@+id/handphoneEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/handphoneText"
-            android:layout_alignBottom="@+id/handphoneText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="숫자만 입력하세요."
-            android:inputType="phone" />
+            <TextView
+                android:id="@+id/homeaddressDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/homeaddressEdit"
+                android:layout_below="@+id/homeaddressEdit"
+                android:layout_marginTop="10dp"
+                android:text="&apos;동&apos;까지만 입력" />
 
-        <EditText
-            android:id="@+id/jobEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/jobText"
-            android:layout_alignBottom="@+id/jobText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10" />
+            <EditText
+                android:id="@+id/handphoneEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/handphoneText"
+                android:layout_alignBottom="@+id/handphoneText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="숫자만 입력하세요."
+                android:inputType="phone" />
 
-        <EditText
-            android:id="@+id/homephoneEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/homephoneText"
-            android:layout_alignBottom="@+id/homephoneText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="숫자만 입력하세요."
-            android:inputType="phone" />
+            <EditText
+                android:id="@+id/jobEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/jobText"
+                android:layout_alignBottom="@+id/jobText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10" />
 
-        <EditText
-            android:id="@+id/birthEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/birthText"
-            android:layout_alignBottom="@+id/birthText"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="ex) 1999.12.34 "
-            android:inputType="date" />
+            <EditText
+                android:id="@+id/homephoneEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/homephoneText"
+                android:layout_alignBottom="@+id/homephoneText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="숫자만 입력하세요."
+                android:inputType="phone" />
 
-        <TextView
-            android:id="@+id/birthDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/birthEdit"
-            android:layout_below="@+id/birthEdit"
-            android:layout_marginTop="10dp"
-            android:text="점(.)으로 구분" />
+            <EditText
+                android:id="@+id/birthEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/birthText"
+                android:layout_alignBottom="@+id/birthText"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="ex) 1999.12.34 "
+                android:inputType="date" />
 
-        <Button
-            android:id="@+id/okbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/jobEdit"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:text="수정 완료" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/birthDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/birthEdit"
+                android:layout_below="@+id/birthEdit"
+                android:layout_marginTop="10dp"
+                android:text="점(.)으로 구분" />
 
-</ScrollView>
+            <Button
+                android:id="@+id/okbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/jobEdit"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:text="수정 완료" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#64000000"
+        android:gravity="center_horizontal"
+        android:text="@string/footer"
+        android:textSize="12sp" />
+
+</RelativeLayout>

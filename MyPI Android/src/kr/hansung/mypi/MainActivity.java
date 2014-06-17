@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends BaseActivity {
 	private BackPressCloseHandler backHandler;
@@ -113,7 +115,7 @@ public class MainActivity extends BaseActivity {
 				setCookieManager(CookieManager.getInstance());
 				String cookies = "";
 				Map<String, List<String>> m = conn.getHeaderFields();
-				
+
 				if (m.containsKey("Set-Cookie")) {
 					Collection<?> c = (Collection<?>) m.get("Set-Cookie");
 					for (Iterator<?> i = c.iterator(); i.hasNext();) {
@@ -148,4 +150,34 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 	}
+
+	class BackPressCloseHandler {
+		private long backKeyPressedTime = 0;
+		private Toast toast;
+
+		private Activity activity;
+
+		public BackPressCloseHandler(Activity context) {
+			this.activity = context;
+		}
+
+		public void onBackPressed() {
+			if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+				backKeyPressedTime = System.currentTimeMillis();
+				showExitMessage();
+				return;
+			}
+			if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+				activity.finish();
+				toast.cancel();
+			}
+		}
+
+		private void showExitMessage() {
+			toast = Toast.makeText(activity, "'뒤로'버튼을 한번 더 누르면 종료합니다.",
+					Toast.LENGTH_SHORT);
+			toast.show();
+		}
+	}
+
 }

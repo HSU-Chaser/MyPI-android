@@ -69,18 +69,12 @@ public class ResultActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_result);
 
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
-		// Intent intent = getIntent();
-		// tv = (TextView) findViewById(R.id.plain);
-		// mProgress = (ProgressBar) findViewById(R.id.progress_bar);
-
-		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
 		resultBtn = (Button) findViewById(R.id.resultBtn);
 		gradeText = (TextView) findViewById(R.id.gradeText);
@@ -472,7 +466,7 @@ public class ResultActivity extends BaseActivity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(getApplicationContext(), MainActivity.class);
+			intent = new Intent(getApplicationContext(), SearchActivity.class);
 			startActivity(intent);
 			finish();
 			break;
