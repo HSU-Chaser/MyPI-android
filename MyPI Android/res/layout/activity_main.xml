@@ -48,7 +48,8 @@
             android:layout_marginLeft="10sp"
             android:layout_toRightOf="@+id/passwordLabel"
             android:ems="10"
-            android:paddingLeft="10dp" >
+            android:paddingLeft="10dp" 
+            android:inputType="textEmailAddress">
 
             <requestFocus />
         </EditText>
