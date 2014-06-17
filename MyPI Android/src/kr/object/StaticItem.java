@@ -1,37 +1,36 @@
 package kr.object;
 
+import android.graphics.Bitmap;
+
 public class StaticItem {
-	private String siteImage;
+	private Bitmap siteImage;
 	private String siteName;
+	private String siteURL;
 	private String url;
 
-	public StaticItem(String siteImage, String siteName, String url) {
-		this.siteImage = siteImage;
+	public StaticItem(String siteURL, String siteName, String url) {
+		this.siteURL = siteURL;
 		this.siteName = siteName;
 		this.url = url;
 	}
 
-	public String getSiteImage() {
-		return siteImage;
+	public void setSiteImage(Bitmap bitmap) {
+		this.siteImage = bitmap;
 	}
 
-	public void setSiteImage(String siteImage) {
-		this.siteImage = siteImage;
+	public String getSiteURL() {
+		return siteURL;
+	}
+
+	public Bitmap getSiteImage() {
+		return siteImage;
 	}
 
 	public String getSiteName() {
 		return siteName;
 	}
 
-	public void setSiteName(String siteName) {
-		this.siteName = siteName;
-	}
-
 	public String getUrl() {
 		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 }

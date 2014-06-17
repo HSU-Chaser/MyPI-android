@@ -1,10 +1,8 @@
 package kr.hansung.mypi;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -22,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -30,9 +29,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -40,9 +39,6 @@ import android.widget.TextView;
 
 public class ResultActivity extends BaseActivity {
 	protected static final int REQUEST_CODE_ANOTHER = 101;
-	// private BackPressCloseHandler backHandler;
-	private ResultActivity resultActivity = this;
-	private ExpandableListView mListView;
 
 	RelativeLayout layout;
 	ProgressBar mProgress;
@@ -58,9 +54,7 @@ public class ResultActivity extends BaseActivity {
 	Button resultBtn;
 
 	ImageView[] imgResultArray;
-	
-	// DataListView list;
-	// IconTextListAdapter adapter;
+	ImageView[] expUrlArray;
 
 	Drawable[] riskImgArray;
 	Drawable riskImg;
@@ -74,13 +68,10 @@ public class ResultActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_result);
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// setContentView(R.layout.activity_result);
-		// backHandler = new BackPressCloseHandler(this);
+		setContentView(R.layout.activity_result);
+
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT);
@@ -111,12 +102,18 @@ public class ResultActivity extends BaseActivity {
 		imgResultArray[7] = (ImageView) findViewById(R.id.imgResult7);
 		imgResultArray[8] = (ImageView) findViewById(R.id.imgResult8);
 		imgResultArray[9] = (ImageView) findViewById(R.id.imgResult9);
-		
-		// list = new DataListView(this);
-		// adapter = new IconTextListAdapter(this);
 
-		// adapter.addItem(new IconTextItem("1", "제목이 나와야 할 부분", riskImg[0]));
-		// adapter.addItem(new IconTextItem("2", "제목이 나와야 할 부분", riskImg[1]));
+		expUrlArray = new ImageView[10];
+		expUrlArray[0] = (ImageView) findViewById(R.id.expUrl0);
+		expUrlArray[1] = (ImageView) findViewById(R.id.expUrl1);
+		expUrlArray[2] = (ImageView) findViewById(R.id.expUrl2);
+		expUrlArray[3] = (ImageView) findViewById(R.id.expUrl3);
+		expUrlArray[4] = (ImageView) findViewById(R.id.expUrl4);
+		expUrlArray[5] = (ImageView) findViewById(R.id.expUrl5);
+		expUrlArray[6] = (ImageView) findViewById(R.id.expUrl6);
+		expUrlArray[7] = (ImageView) findViewById(R.id.expUrl7);
+		expUrlArray[8] = (ImageView) findViewById(R.id.expUrl8);
+		expUrlArray[9] = (ImageView) findViewById(R.id.expUrl9);
 
 		new ResultTask().execute();
 
@@ -129,7 +126,8 @@ public class ResultActivity extends BaseActivity {
 		});
 	}
 
-	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONObject> {
+	class ResultTask extends
+			AsyncTask<Void/* 로그인 정보 필요 */, String, JSONObject> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -144,8 +142,9 @@ public class ResultActivity extends BaseActivity {
 		protected JSONObject doInBackground(Void... params) {
 			HttpURLConnection conn = null;
 			StringBuffer buffer = null;
-			JSONObject array = null;
+			JSONObject object = null;
 
+			// Parse JSON
 			try {
 				// Build URL
 				URL url = new URL("http://mypi.co.kr/json.txt");
@@ -164,7 +163,7 @@ public class ResultActivity extends BaseActivity {
 					Log.i("Data", read);
 					buffer.append(read);
 				}
-				array = new JSONObject(buffer.toString());
+				object = new JSONObject(buffer.toString());
 				// Close
 				br.close();
 				isr.close();
@@ -173,8 +172,46 @@ public class ResultActivity extends BaseActivity {
 			} finally {
 				conn.disconnect();
 			}
+			
+			parseJSON(object);
+			
+			// Get Images From URL
+			publishProgress("image");
 
-			return array;
+			// Image Search
+			for (int i = 0; i < imageResult.size(); i++) {
+				try {
+					URL url = new URL(imageResult.get(i));
+					Bitmap bitmap = BitmapFactory
+							.decodeStream(url.openStream());
+					imgResultArray[i].setImageBitmap(bitmap);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			// Static Search
+			for (int i = 0; i < staticResult.size(); i++) {
+				try {
+					StaticItem si = staticResult.get(i);
+					URL url = new URL(si.getSiteURL());
+					Bitmap bitmap = BitmapFactory
+							.decodeStream(url.openStream());
+					si.setSiteImage(bitmap);
+					staticResult.set(i, si);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			return object;
+		}
+
+		// Dialog 메시지 설정
+		@Override
+		protected void onProgressUpdate(String... values) {
+			if (values[0].equals("image"))
+				mDialog.setMessage("이미지를 불러오는 중입니다...");
 		}
 
 		// 받아오는것이 완료된 시점
@@ -183,41 +220,57 @@ public class ResultActivity extends BaseActivity {
 			super.onPostExecute(object);
 			mDialog.dismiss();
 
-			parseJSON(object);
-
 			// UI Update
 			Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					runOnUiThread(new Runnable() {
 						public void run() {
-							//"회원님의 보안등급은 " + grade + " 입니다."
-							gradeText.setText(Html.fromHtml("<b>" + grade + "</b>"));
+							// Grade UI
+							gradeText.setText(Html.fromHtml("<b>" + grade
+									+ "</b>"));
 							gradeExpText.setText(gradeExp);
 
-							for(int i=0; i<imageResult.size(); i++){
-								
-								URL url;
+							// ImageSearch UI
+							for (int i = imageResult.size(); i < imgResultArray.length; i++) {
+								imgResultArray[i].setVisibility(View.INVISIBLE);
+							}
+
+							// StaticSearch UI
+							for (int i = 0; i < staticResult.size(); i++) {
 								try {
-									url = new URL("http://www.androidpub.com/files/attach/images/41913/5a20ec8926dc0cd5dc0bea4fa5fc985e.png");
-									Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
-									imgResultArray[i].setImageBitmap(bitmap);
-									
-								} catch (MalformedURLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
+									// 사이트 이미지 세팅
+									expUrlArray[i].setImageBitmap(staticResult
+											.get(i).getSiteImage());
+									expUrlArray[i].setTag(i);
+									expUrlArray[i]
+											.setOnClickListener(new OnClickListener() {
+												@Override
+												public void onClick(View v) {
+													Log.d("TEST",
+															"로그 : "
+																	+ v.getTag()
+																	+ "  "
+																	+ staticResult
+																			.get((Integer) v
+																					.getTag())
+																			.getUrl());
+													Intent intent = new Intent(
+															Intent.ACTION_VIEW,
+															Uri.parse(staticResult
+																	.get((Integer) v
+																			.getTag())
+																	.getUrl()));
+													startActivity(intent);
+												}
+											});
+								} catch (Exception e) {
 									e.printStackTrace();
 								}
 							}
-							for(int i=imageResult.size(); i < imgResultArray.length; i++){
-								imgResultArray[i].setVisibility(View.INVISIBLE);
+							for (int i = staticResult.size(); i < expUrlArray.length; i++) {
+								expUrlArray[i].setVisibility(View.INVISIBLE);
 							}
-							
-							
-							// setText 등
-
 						}
 					});
 				}
@@ -227,7 +280,6 @@ public class ResultActivity extends BaseActivity {
 	}
 
 	private void parseJSON(JSONObject object) {
-
 		try {
 			grade = object.getString("grade");
 			gradeExp = object.getString("gradeExp");
@@ -237,16 +289,13 @@ public class ResultActivity extends BaseActivity {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		// Grade
-		this.grade = grade;
-		this.gradeExp = gradeExp;
 
 		// Image Search
 		imageResult = new ArrayList<String>();
 		for (int i = 0; i < imageSearch.length(); i++) {
 			try {
-				JSONObject item = (JSONObject) imageSearch.get(i);
-				imageResult.add(item.toString());
+				String item = imageSearch.getString(i);
+				imageResult.add(item);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -309,7 +358,6 @@ public class ResultActivity extends BaseActivity {
 	}
 
 	public String[] getSolution(String engine, String url) {
-
 		// String solution1 = null, solution2 = null;
 		String solution[] = { "", "" };
 
@@ -398,7 +446,6 @@ public class ResultActivity extends BaseActivity {
 		}
 
 		return solution;
-
 	}
 
 	// Action Bar Menu Control
