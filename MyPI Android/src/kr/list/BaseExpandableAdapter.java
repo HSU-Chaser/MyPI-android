@@ -7,25 +7,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BaseExpandableAdapter extends BaseExpandableListAdapter {
-
 	private ArrayList<GroupItem> groupList = null;
 	private ArrayList<ArrayList<ChildItem>> childList = null;
 	private LayoutInflater inflater;
 	private ViewHolder viewHolder = null;
+	private Context mContext = null;
 
 	public BaseExpandableAdapter(Context context,
 			ArrayList<GroupItem> groupList,
 			ArrayList<ArrayList<ChildItem>> childList) {
 		super();
+		this.mContext = context;
 		this.inflater = LayoutInflater.from(context);
 		this.groupList = groupList;
 		this.childList = childList;
@@ -84,7 +88,6 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 	// 차일드뷰를 반환한다.
 	@Override
 	public ChildItem getChild(int groupPosition, int childPosition) {
-
 		return childList.get(groupPosition).get(childPosition);
 	}
 
@@ -114,16 +117,17 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 			viewHolder.solution1 = (TextView) v.findViewById(R.id.solution1);
 			viewHolder.solution2 = (TextView) v.findViewById(R.id.solution2);
 
-//			viewHolder.urlLinkBtn = (Button) v.findViewById(R.id.urlLinkBtn);
-//			viewHolder.linkDeleteBtn = (Button) v
-//					.findViewById(R.id.linkDeleteBtn);
-//			viewHolder.centerBtn = (Button) v.findViewById(R.id.centerBtn);
+			viewHolder.urlLinkBtn = (Button) v.findViewById(R.id.urlLinkBtn);
+			viewHolder.linkDeleteBtn = (Button) v
+					.findViewById(R.id.linkDeleteBtn);
+			viewHolder.centerBtn = (Button) v.findViewById(R.id.centerBtn);
 
 			v.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) v.getTag();
 		}
 
+		// Set Snippet, Solution1, Solution2
 		viewHolder.snippet.setText(Html.fromHtml(getChild(groupPosition,
 				childPosition).getSnippet()));
 		viewHolder.solution1.setText(Html.fromHtml(getChild(groupPosition,
@@ -135,26 +139,40 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 			viewHolder.solution2.setText("검색결과에 대한 특정화된 솔루션이 존재하지 않습니다.");
 		}
 
-//		viewHolder.urlLinkBtn.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View view) {
-//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://blog.naver.com/dienerze"));
-//				startActivity(intent);
-//			}
-//		});
-//		viewHolder.linkDeleteBtn.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View view) {
-//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
-//						.parse("http://blog.naver.com/dienerze"));
-//				startActivity(intent);
-//			}
-//		});
-//		viewHolder.centerBtn.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View view) {
-//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
-//						.parse("http://blog.naver.com/dienerze"));
-//				startActivity(intent);
-//			}
-//		});
+		// Button Link
+		final String urlLink = getChild(groupPosition, childPosition).getUrl();
+		final String urlDelete = getChild(groupPosition, childPosition)
+				.getUrlDelete();
+		Log.i("urlDelete", groupPosition + " " + urlDelete);
+		final String center = getChild(groupPosition, childPosition)
+				.getCenter();
+
+		viewHolder.urlLinkBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+						.parse(urlLink));
+				v.getContext().startActivity(intent);
+			}
+		});
+		viewHolder.linkDeleteBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+						.parse(urlDelete));
+				v.getContext().startActivity(intent);
+			}
+		});
+		viewHolder.centerBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (center.equals("")) {
+					Toast.makeText(mContext, "링크를 클릭하여 직접 삭제해야 합니다.",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+							.parse(center));
+					v.getContext().startActivity(intent);
+				}
+			}
+		});
 
 		return v;
 	}
@@ -170,19 +188,10 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	class ViewHolder {
-
-		public TextView index;
-		public TextView title;
+		public TextView index, title;
 		public ImageView riskImg;
 
-		public TextView snippet;
-		public TextView solution1;
-		public TextView solution2;
-//
-//		public Button urlLinkBtn;
-//		public Button linkDeleteBtn;
-//		public Button centerBtn;
-
+		public TextView snippet, solution1, solution2;
+		public Button urlLinkBtn, linkDeleteBtn, centerBtn;
 	}
-
 }

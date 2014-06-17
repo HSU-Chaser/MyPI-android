@@ -39,7 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ResultActivity extends BaseActivity {
-	protected static final int REQUEST_CODE_ANOTHER = 101;
+	protected static final int REQUEST_CODE_RESULT = 102;
 
 	RelativeLayout layout;
 	ProgressBar mProgress;
@@ -47,7 +47,9 @@ public class ResultActivity extends BaseActivity {
 
 	ArrayList<String> imageResult;
 	ArrayList<StaticItem> staticResult;
-	ArrayList<SearchResult> dynamicResult;
+	public static ArrayList<SearchResult> dynamicResult;
+	public static ArrayList<GroupItem> mGroupList = new ArrayList<GroupItem>();
+	public static ArrayList<ChildItem> mChildListContent = new ArrayList<ChildItem>();
 	ViewGroup.LayoutParams params;
 
 	TextView tv;
@@ -116,7 +118,7 @@ public class ResultActivity extends BaseActivity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent(getBaseContext(),
 						DynamicResultActivity.class);
-				startActivityForResult(intent, REQUEST_CODE_ANOTHER);
+				startActivityForResult(intent, REQUEST_CODE_RESULT);
 			}
 		});
 	}
@@ -127,7 +129,8 @@ public class ResultActivity extends BaseActivity {
 			super.onPreExecute();
 			mDialog = new ProgressDialog(ResultActivity.this);
 			mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			mDialog.setTitle("MyPI");
+			mDialog.setTitle(" ");
+			mDialog.setIcon(R.drawable.pi_144x44);
 			mDialog.setMessage("결과를 분석중입니다...");
 			mDialog.setCancelable(false);
 			mDialog.setCanceledOnTouchOutside(false);
@@ -323,8 +326,8 @@ public class ResultActivity extends BaseActivity {
 
 		// Dynamic Search
 		dynamicResult = new ArrayList<SearchResult>();
-		DynamicResultActivity.mGroupList.clear();
-		DynamicResultActivity.mChildListContent.clear();
+		mGroupList.clear();
+		mChildListContent.clear();
 
 		for (int i = 0; i < dynamicSearch.length(); i++) {
 			try {
@@ -335,6 +338,7 @@ public class ResultActivity extends BaseActivity {
 								.getString("snippet"), item
 								.getString("searchPage"), item
 								.getDouble("exposure")));
+				SearchResult listItem = dynamicResult.get(i);
 
 				double exposure = dynamicResult.get(i).getExposure();
 				if (exposure >= 120)
@@ -344,16 +348,15 @@ public class ResultActivity extends BaseActivity {
 				else if (exposure < 20)
 					riskImg = riskImgArray[0];
 
-				DynamicResultActivity.mGroupList.add(new GroupItem(i + 1 + "",
-						dynamicResult.get(i).getTitle(), riskImg));
+				mGroupList.add(new GroupItem(i + 1 + "", listItem.getTitle(),
+						riskImg));
 
 				String[] solution = {,};
-				solution = getSolution(dynamicResult.get(i).getEngine(),
-						dynamicResult.get(i).getURL());
+				solution = getSolution(listItem.getEngine(), listItem.getURL());
 
-				DynamicResultActivity.mChildListContent.add(new ChildItem(
-						dynamicResult.get(i).getSnippet(), solution[0],
-						solution[1]));
+				mChildListContent.add(new ChildItem(listItem.getURL(), listItem
+						.getEngine(), solution[2], listItem.getSnippet(),
+						solution[0], solution[1]));
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -366,17 +369,20 @@ public class ResultActivity extends BaseActivity {
 
 	public String[] getSolution(String engine, String url) {
 		// String solution1 = null, solution2 = null;
-		String solution[] = { "", "" };
+		String solution[] = { "", "", "" };
 
 		if (engine.matches(".*Naver.*") == true) {
 			solution[0] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
 					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>";
+			solution[2] = "http://inoti.naver.com/inoti/claim.nhn?m=purpose";
 		} else if (engine.matches(".*Daum.*") == true) {
 			solution[0] = "<p>결과가 내가아닌 타인에 의해 개인의 금융정보 유출이나 심각한 개인정보 피해를 야기할 수 있게 되었다면,</p>"
 					+ "<p>위 링크를 통해 처리과정을 참고한 후 게시중단요청을 진행하시기 바랍니다.</p> <h5>* 참고 : Daum 로그인이 필요합니다. 아이디가 없을경우 따로 본인인증을 거쳐야 합니다.</h5>";
+			solution[2] = "http://cs.daum.net/mail/form/15.html";
 		} else if (engine.matches(".*Google.*") == true) {
 			solution[0] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
 					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>";
+			solution[2] = "https://support.google.com/websearch/troubleshooter/3111061?hl=ko&ref_topic=3285072#ts=2889054,2889099,2889104";
 		}
 
 		if (url.matches(".*blog.naver.*") == true) {
@@ -475,10 +481,12 @@ public class ResultActivity extends BaseActivity {
 		case R.id.change_info:
 			intent = new Intent(getApplicationContext(),
 					ChangeInfoActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, REQUEST_CODE_RESULT);
 			break;
 		case R.id.signout:
-			// 로그아웃
+			intent = new Intent(getApplicationContext(), MainActivity.class);
+			startActivity(intent);
+			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

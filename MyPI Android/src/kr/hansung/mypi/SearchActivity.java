@@ -1,6 +1,5 @@
 package kr.hansung.mypi;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,10 +12,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class SearchActivity extends BaseActivity {
+	protected static final int REQUEST_CODE_SEARCH = 101;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_search);
 
@@ -30,7 +30,9 @@ public class SearchActivity extends BaseActivity {
 					view.setImageResource(R.drawable.modal_p);
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					view.setImageResource(R.drawable.modal);
-					Toast.makeText(getApplicationContext(), "오른쪽 상단에 회원정보 수정 버튼을 눌러 정보를 수정합니다.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(),
+							"오른쪽 상단에 회원정보 수정 버튼을 눌러 정보를 수정합니다.",
+							Toast.LENGTH_LONG).show();
 				}
 				return true;
 			}
@@ -48,7 +50,7 @@ public class SearchActivity extends BaseActivity {
 					view.setImageResource(R.drawable.search);
 					Intent intent = new Intent(getApplicationContext(),
 							ResultActivity.class);
-					startActivity(intent);
+					startActivityForResult(intent, REQUEST_CODE_SEARCH);
 				}
 				return true;
 			}
@@ -68,24 +70,15 @@ public class SearchActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			intent = new Intent(getApplicationContext(), MainActivity.class);
-			startActivity(intent);
-			finish();
-			break;
 		case R.id.change_info:
 			intent = new Intent(getApplicationContext(),
 					ChangeInfoActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, REQUEST_CODE_SEARCH);
 			break;
 		case R.id.signout:
-			AlertDialog.Builder alert = new AlertDialog.Builder(
-					getApplicationContext());
-			alert.setTitle("로그아웃");
-			alert.setMessage("로그아웃 하시겠습니까?");
-			alert.setPositiveButton("확인", null);
-			alert.setNegativeButton("취소", null);
-			alert.show();
+			intent = new Intent(getApplicationContext(), MainActivity.class);
+			startActivity(intent);
+			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -4,11 +4,6 @@ import java.util.ArrayList;
 
 import kr.list.BaseExpandableAdapter;
 import kr.list.ChildItem;
-import kr.list.GroupItem;
-import kr.object.SearchResult;
-
-import org.json.JSONArray;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,26 +20,19 @@ import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class DynamicResultActivity extends BaseActivity {
 	private ExpandableListView mListView;
 
-	public static ArrayList<GroupItem> mGroupList = new ArrayList<GroupItem>();
-	public static ArrayList<ChildItem> mChildListContent = new ArrayList<ChildItem>();
 	private ArrayList<ArrayList<ChildItem>> mChildList = new ArrayList<ArrayList<ChildItem>>();
 	private BaseExpandableAdapter mBaseExpandableAdapter = null;
 
 	RelativeLayout layout;
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
-	ArrayList<SearchResult> result;
 	ViewGroup.LayoutParams params;
-	JSONArray mArray;
-	TextView tv;
-	Button resultBtn;
 
+	Button urlLinkBtn, linkDeleteBtn, centerBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +41,17 @@ public class DynamicResultActivity extends BaseActivity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_dynamic_result);
 
-		setLayout();
-
+		mListView = (ExpandableListView) findViewById(R.id.list);
 		mChildList.clear();
 
-		for (int i = 0; i < mGroupList.size(); i++) {
+		for (int i = 0; i < ResultActivity.mGroupList.size(); i++) {
 			ArrayList<ChildItem> tmpChild = new ArrayList<ChildItem>();
-			tmpChild.add(mChildListContent.get(i));
+			tmpChild.add(ResultActivity.mChildListContent.get(i));
 			mChildList.add(tmpChild);
 		}
 
-		mBaseExpandableAdapter = new BaseExpandableAdapter(this, mGroupList,
-				mChildList);
+		mBaseExpandableAdapter = new BaseExpandableAdapter(this,
+				ResultActivity.mGroupList, mChildList);
 
 		mListView.setAdapter(mBaseExpandableAdapter);
 
@@ -73,10 +60,6 @@ public class DynamicResultActivity extends BaseActivity {
 			@Override
 			public boolean onGroupClick(ExpandableListView parent, View v,
 					int groupPosition, long id) {
-				// Toast.makeText(getApplicationContext(),
-				// "g click = " + groupPosition, Toast.LENGTH_SHORT)
-				// .show();
-
 				// Listener 에서 Adapter 사용법 (getExpandableListAdapter 사용해야함.)
 				// BaseExpandableAdpater에 오버라이드 된 함수들을 사용할 수 있다.
 				int groupCount = (int) parent.getExpandableListAdapter()
@@ -89,13 +72,10 @@ public class DynamicResultActivity extends BaseActivity {
 		});
 
 		mListView.setOnChildClickListener(new OnChildClickListener() {
-
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
-
 				// parent.getExpandableListAdapter().getGroup(groupPosition).
-
 				return false;
 			}
 
@@ -106,9 +86,7 @@ public class DynamicResultActivity extends BaseActivity {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
 					int groupPosition, int childPosition, long id) {
-				Toast.makeText(getApplicationContext(),
-						"c click = " + childPosition, Toast.LENGTH_SHORT)
-						.show();
+
 				return false;
 			}
 		});
@@ -125,10 +103,6 @@ public class DynamicResultActivity extends BaseActivity {
 		mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				// Toast.makeText(getApplicationContext(),
-				// "g Expand = " + groupPosition, Toast.LENGTH_SHORT)
-				// .show();
-
 				int groupCount = mBaseExpandableAdapter.getGroupCount();
 
 				// 한 그룹을 클릭하면 나머지 그룹들은 닫힌다.
@@ -138,11 +112,6 @@ public class DynamicResultActivity extends BaseActivity {
 				}
 			}
 		});
-
-	}
-
-	private void setLayout() {
-		mListView = (ExpandableListView) findViewById(R.id.list);
 	}
 
 	// Action Bar Menu Control
@@ -158,7 +127,8 @@ public class DynamicResultActivity extends BaseActivity {
 		Intent intent;
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			intent = new Intent(DynamicResultActivity.this, SearchActivity.class);
+			intent = new Intent(DynamicResultActivity.this,
+					SearchActivity.class);
 			startActivity(intent);
 			finish();
 			break;
@@ -168,7 +138,9 @@ public class DynamicResultActivity extends BaseActivity {
 			startActivity(intent);
 			break;
 		case R.id.signout:
-			// 로그아웃
+			intent = new Intent(getApplicationContext(), MainActivity.class);
+			startActivity(intent);
+			finish();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

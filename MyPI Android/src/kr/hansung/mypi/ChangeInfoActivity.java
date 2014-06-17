@@ -30,7 +30,6 @@ public class ChangeInfoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				
 				nameEdit = (EditText) findViewById(R.id.nameEdit);
 				handphoneEdit = (EditText) findViewById(R.id.handphoneEdit);
 				homephoneEdit = (EditText) findViewById(R.id.homephoneEdit);
@@ -65,6 +64,11 @@ public class ChangeInfoActivity extends BaseActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			intent = new Intent(getApplicationContext(), SearchActivity.class);
+			startActivity(intent);
+			finish();
+			break;
+		case R.id.signout:
+			intent = new Intent(getApplicationContext(), MainActivity.class);
 			startActivity(intent);
 			finish();
 			break;

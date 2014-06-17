@@ -27,12 +27,13 @@ public class SignUpActivity extends BaseActivity {
 				String email = emailEdit.getText().toString();
 				String password = passwordEdit.getText().toString();
 				String passwordCheck = passwordCheckEdit.getText().toString();
-				
-				if(password.equals(passwordCheck)) {
+
+				if (password.equals(passwordCheck)) {
 					// 회원가입 진행
-					
+
 				} else {
-					Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요",
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -41,7 +42,10 @@ public class SignUpActivity extends BaseActivity {
 		cancelBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onBackPressed();
+				Intent intent = new Intent(getApplicationContext(),
+						MainActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		});
 	}

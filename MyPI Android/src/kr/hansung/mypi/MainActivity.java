@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends BaseActivity {
+	protected static final int REQUEST_CODE_MAIN = 100;
 	private BackPressCloseHandler backHandler;
 	EditText emailEntry;
 	EditText passwordEntry;
@@ -54,7 +55,7 @@ public class MainActivity extends BaseActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(),
 						SignUpActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, REQUEST_CODE_MAIN);
 			}
 		});
 
@@ -141,7 +142,7 @@ public class MainActivity extends BaseActivity {
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(getApplicationContext(),
 						SearchActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, REQUEST_CODE_MAIN);
 			} else {
 				AlertDialog.Builder alert = new AlertDialog.Builder(
 						MainActivity.this);
