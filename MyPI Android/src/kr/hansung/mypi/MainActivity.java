@@ -1,8 +1,5 @@
 package kr.hansung.mypi;
 
-import static kr.hansung.mypi.BaseActivity.getCookieManager;
-import static kr.hansung.mypi.BaseActivity.setCookieManager;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -114,13 +111,14 @@ public class MainActivity extends BaseActivity {
 				// 쿠키 받아오기
 				CookieSyncManager.createInstance(getApplicationContext());
 				setCookieManager(CookieManager.getInstance());
-				String cookies = null;
+				String cookies = "";
 				Map<String, List<String>> m = conn.getHeaderFields();
+				
 				if (m.containsKey("Set-Cookie")) {
 					Collection<?> c = (Collection<?>) m.get("Set-Cookie");
 					for (Iterator<?> i = c.iterator(); i.hasNext();) {
 						cookies += (String) i.next() + ", ";
-						getCookieManager().setCookie(conn.getURL().toString(),
+						getCookieManager().setCookie("http://mypi.co.kr/",
 								cookies);
 						Log.i("Cookie", cookies);
 					}

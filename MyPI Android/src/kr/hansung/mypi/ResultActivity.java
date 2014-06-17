@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -146,12 +147,22 @@ public class ResultActivity extends BaseActivity {
 			// Parse JSON
 			try {
 				// Build URL
-				URL url = new URL("http://mypi.co.kr/json.txt");
+				URL url = new URL("http://mypi.co.kr/mobileSearch.jsp");
+
 				// Connect
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 				conn.setRequestProperty("Accept", "application/json");
-				
+				conn.setDoInput(true);
+				conn.setDoOutput(true);
+				conn.setUseCaches(false);
+
+				// Set Cookie
+				String cookie = CookieManager.getInstance().getCookie(
+						"http://mypi.co.kr");
+				Log.i("Set Cookie", cookie);
+				conn.setRequestProperty("Cookie", cookie);
+
 				// Read
 				InputStreamReader isr = new InputStreamReader(
 						conn.getInputStream(), "UTF-8");
