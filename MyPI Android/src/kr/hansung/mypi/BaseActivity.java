@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.widget.TextView;
 
 public class BaseActivity extends Activity {
+	private static CookieManager cookieManager;
 	private static Typeface mTypeface;
 
 	@Override
@@ -31,4 +33,13 @@ public class BaseActivity extends Activity {
 			}
 		}
 	}
+
+	public static CookieManager getCookieManager() {
+		return cookieManager;
+	}
+
+	public static void setCookieManager(CookieManager cookieManager) {
+		BaseActivity.cookieManager = cookieManager;
+	}
+
 }

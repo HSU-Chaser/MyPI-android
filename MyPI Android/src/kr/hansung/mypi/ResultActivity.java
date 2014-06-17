@@ -126,8 +126,7 @@ public class ResultActivity extends BaseActivity {
 		});
 	}
 
-	class ResultTask extends
-			AsyncTask<Void/* 로그인 정보 필요 */, String, JSONObject> {
+	class ResultTask extends AsyncTask<Void, String, JSONObject> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -152,6 +151,7 @@ public class ResultActivity extends BaseActivity {
 				conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 				conn.setRequestProperty("Accept", "application/json");
+				
 				// Read
 				InputStreamReader isr = new InputStreamReader(
 						conn.getInputStream(), "UTF-8");
@@ -172,9 +172,9 @@ public class ResultActivity extends BaseActivity {
 			} finally {
 				conn.disconnect();
 			}
-			
+
 			parseJSON(object);
-			
+
 			// Get Images From URL
 			publishProgress("image");
 
