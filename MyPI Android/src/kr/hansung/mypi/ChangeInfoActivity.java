@@ -1,11 +1,10 @@
 package kr.hansung.mypi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class ChangeInfoActivity extends Activity {
+public class ChangeInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

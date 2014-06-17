@@ -23,7 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="종료" />
+            android:background="#0c4881"
+            android:text="종료"
+            android:textColor="#ffffff" />
 
         <EditText
             android:id="@+id/passwordEntry"
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/passwordLabel"
             android:layout_alignBottom="@+id/passwordLabel"
+            android:layout_marginLeft="10sp"
             android:layout_toRightOf="@+id/passwordLabel"
             android:ems="10"
             android:inputType="textPassword" />
@@ -42,8 +45,10 @@
             android:layout_alignBaseline="@+id/EmailLabel"
             android:layout_alignBottom="@+id/EmailLabel"
             android:layout_alignRight="@+id/passwordEntry"
+            android:layout_marginLeft="10sp"
             android:layout_toRightOf="@+id/passwordLabel"
-            android:ems="10" >
+            android:ems="10"
+            android:paddingLeft="10dp" >
 
             <requestFocus />
         </EditText>
@@ -65,6 +70,7 @@
             android:layout_centerVertical="true"
             android:paddingTop="16dp"
             android:text="비밀번호"
+            android:textColor="#0c4881"
             android:textSize="18dp" />
 
         <TextView
@@ -72,10 +78,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/passwordEntry"
-            android:layout_alignRight="@+id/passwordLabel"
-            android:layout_marginRight="14dp"
+            android:layout_alignLeft="@+id/passwordLabel"
+            android:layout_toLeftOf="@+id/EmailEntry"
             android:paddingTop="4dp"
             android:text="이메일"
+            android:textColor="#0c4881"
             android:textSize="18dp" />
 
         <TextView
@@ -86,7 +93,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="@string/header" />
+            android:text="@string/header"
+            android:textColor="#0c4881" />
 
         <Button
             android:id="@+id/SignupBtn"
@@ -94,7 +102,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/loginBtn"
             android:layout_centerHorizontal="true"
-            android:text="회원가입" />
+            android:layout_marginTop="10dp"
+            
+            android:background="#0c4881"
+            android:text="회원가입"
+            android:textColor="#ffffff" />
 
         <Button
             android:id="@+id/loginBtn"
@@ -103,7 +115,9 @@
             android:layout_below="@+id/passwordEntry"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
-            android:text="로그인" />
+            android:background="#0c4881"
+            android:text="로그인"
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
     <TextView

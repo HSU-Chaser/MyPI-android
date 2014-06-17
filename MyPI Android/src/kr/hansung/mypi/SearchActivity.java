@@ -1,17 +1,17 @@
 package kr.hansung.mypi;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -19,15 +19,39 @@ public class SearchActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_search);
 
-		ImageView searchBtn = (ImageView) findViewById(R.id.searchBtn);
-		searchBtn.setOnClickListener(new OnClickListener() {
+		ImageView helpBtn = (ImageView) findViewById(R.id.helpBtn);
+		helpBtn.setOnTouchListener(new OnTouchListener() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(),
-						ResultActivity.class);
-				startActivity(intent);
+			public boolean onTouch(View v, MotionEvent event) {
+				ImageView view = (ImageView) v;
+
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					view.setImageResource(R.drawable.modal_p);
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					view.setImageResource(R.drawable.modal);
+				}
+				return true;
 			}
 		});
+
+		ImageView searchBtn = (ImageView) findViewById(R.id.searchBtn);
+		searchBtn.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				ImageView view = (ImageView) v;
+
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					view.setImageResource(R.drawable.search_p);
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					view.setImageResource(R.drawable.search);
+					Intent intent = new Intent(getApplicationContext(),
+							ResultActivity.class);
+					startActivity(intent);
+				}
+				return true;
+			}
+		});
+
 	}
 
 	// Action Bar Menu Control

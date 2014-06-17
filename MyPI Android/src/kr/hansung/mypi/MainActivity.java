@@ -1,6 +1,5 @@
 package kr.hansung.mypi;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 	private BackPressCloseHandler backHandler;
 
 	@Override
@@ -16,6 +15,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		backHandler = new BackPressCloseHandler(MainActivity.this);
+
 		setContentView(R.layout.activity_main);
 
 		Button loginBtn = (Button) findViewById(R.id.loginBtn);
@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 				boolean signIn = true;
 
 				// 로그인 구현필요
+				//
 
 				if (signIn) {
 					Intent intent = new Intent(getApplicationContext(),

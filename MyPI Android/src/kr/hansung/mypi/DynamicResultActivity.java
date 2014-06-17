@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -32,7 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DynamicResultActivity extends Activity {
+public class DynamicResultActivity extends BaseActivity {
 	private BackPressCloseHandler backHandler;
 	private ExpandableListView mListView;
 
@@ -53,12 +52,12 @@ public class DynamicResultActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_dynamic_result);
-		
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
-//		setContentView(R.layout.activity_result);
+		// setContentView(R.layout.activity_result);
 		backHandler = new BackPressCloseHandler(this);
 		params = new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
@@ -69,7 +68,6 @@ public class DynamicResultActivity extends Activity {
 
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
-		
 		riskImgArray = new Drawable[3];
 
 		riskImgArray[0] = getResources().getDrawable(R.drawable.risk_low);
@@ -78,10 +76,9 @@ public class DynamicResultActivity extends Activity {
 
 		list = new DataListView(this);
 		adapter = new IconTextListAdapter(this);
-	
+
 		new ResultTask().execute();
 	}
-
 
 	class ResultTask extends AsyncTask<Void/* 로그인 정보 필요 */, Void, JSONArray> {
 		@Override
@@ -151,21 +148,23 @@ public class DynamicResultActivity extends Activity {
 							object.getString("snippet"), object
 									.getString("searchPage"), object
 									.getDouble("exposure")));
-					
-					//index, title, riskImg
+
+					// index, title, riskImg
 					double exposure = result.get(i).getExposure();
-					if(exposure >= 120) riskImg = riskImgArray[2];
-					else if(exposure < 120 && exposure >= 20) riskImg = riskImgArray[1];
-					else if(exposure < 20) riskImg = riskImgArray[0];
-					
-					adapter.addItem(new IconTextItem(i+1 + "", result.get(i).getTitle(), riskImg));
+					if (exposure >= 120)
+						riskImg = riskImgArray[2];
+					else if (exposure < 120 && exposure >= 20)
+						riskImg = riskImgArray[1];
+					else if (exposure < 20)
+						riskImg = riskImgArray[0];
+
+					adapter.addItem(new IconTextItem(i + 1 + "", result.get(i)
+							.getTitle(), riskImg));
 
 					list.setAdapter(adapter);
-					
-					
+
 					DynamicResultActivity.this.setContentView(list, params);
-					
-					
+
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -206,7 +205,8 @@ public class DynamicResultActivity extends Activity {
 			finish();
 			break;
 		case R.id.change_info:
-			intent = new Intent(DynamicResultActivity.this, ChangeInfoActivity.class);
+			intent = new Intent(DynamicResultActivity.this,
+					ChangeInfoActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.signout:
@@ -216,11 +216,5 @@ public class DynamicResultActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 		return false;
-	}
-
-	// Back Button Control
-	@Override
-	public void onBackPressed() {
-		backHandler.onBackPressed();
 	}
 }

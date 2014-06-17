@@ -2,4 +2,5 @@
 <resources>
 	<color name="bg_color">#ffffff</color>
 	<color name="text_color">#0c76c7</color>    
+	<color name="btn_default">#0c4881</color>
 </resources>

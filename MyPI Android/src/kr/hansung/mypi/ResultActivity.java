@@ -15,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -33,7 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ResultActivity extends Activity {
+public class ResultActivity extends BaseActivity {
 	protected static final int REQUEST_CODE_ANOTHER = 101;
 	// private BackPressCloseHandler backHandler;
 	private ResultActivity resultActivity = this;

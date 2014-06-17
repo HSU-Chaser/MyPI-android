@@ -1,13 +1,12 @@
 package kr.hansung.mypi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class Intro extends Activity {
+public class Intro extends BaseActivity {
 	ImageView intro;
 
 	@Override
