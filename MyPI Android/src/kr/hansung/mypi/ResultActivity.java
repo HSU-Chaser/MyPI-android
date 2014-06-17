@@ -1,8 +1,10 @@
 package kr.hansung.mypi;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -18,9 +20,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,22 +49,28 @@ public class ResultActivity extends Activity {
 	ProgressBar mProgress;
 	ProgressDialog mDialog;
 
-	String grade, gradeExp;
 	ArrayList<String> imageResult;
 	ArrayList<StaticItem> staticResult;
 	ArrayList<SearchResult> dynamicResult;
 	ViewGroup.LayoutParams params;
 
 	TextView tv;
-
-	TextView safeText1, safeText2;
+	TextView gradeText, gradeExpText;
 	Button resultBtn;
 
+	ImageView[] imgResultArray;
+	
 	// DataListView list;
 	// IconTextListAdapter adapter;
 
 	Drawable[] riskImgArray;
 	Drawable riskImg;
+
+	String grade = null;
+	String gradeExp = null;
+	JSONArray imageSearch = null;
+	JSONArray staticSearch = null;
+	JSONArray dynamicSearch = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +92,8 @@ public class ResultActivity extends Activity {
 		// ListView resultList = (ListView) findViewById(R.id.result_list);
 
 		resultBtn = (Button) findViewById(R.id.resultBtn);
-		safeText1 = (TextView) findViewById(R.id.safeText1);
-		safeText2 = (TextView) findViewById(R.id.safeText2);
+		gradeText = (TextView) findViewById(R.id.gradeText);
+		gradeExpText = (TextView) findViewById(R.id.gradeExpText);
 
 		riskImgArray = new Drawable[3];
 
@@ -89,6 +101,18 @@ public class ResultActivity extends Activity {
 		riskImgArray[1] = getResources().getDrawable(R.drawable.risk_mid);
 		riskImgArray[2] = getResources().getDrawable(R.drawable.risk_high);
 
+		imgResultArray = new ImageView[10];
+		imgResultArray[0] = (ImageView) findViewById(R.id.imgResult0);
+		imgResultArray[1] = (ImageView) findViewById(R.id.imgResult1);
+		imgResultArray[2] = (ImageView) findViewById(R.id.imgResult2);
+		imgResultArray[3] = (ImageView) findViewById(R.id.imgResult3);
+		imgResultArray[4] = (ImageView) findViewById(R.id.imgResult4);
+		imgResultArray[5] = (ImageView) findViewById(R.id.imgResult5);
+		imgResultArray[6] = (ImageView) findViewById(R.id.imgResult6);
+		imgResultArray[7] = (ImageView) findViewById(R.id.imgResult7);
+		imgResultArray[8] = (ImageView) findViewById(R.id.imgResult8);
+		imgResultArray[9] = (ImageView) findViewById(R.id.imgResult9);
+		
 		// list = new DataListView(this);
 		// adapter = new IconTextListAdapter(this);
 
@@ -168,7 +192,31 @@ public class ResultActivity extends Activity {
 				public void run() {
 					runOnUiThread(new Runnable() {
 						public void run() {
+							//"회원님의 보안등급은 " + grade + " 입니다."
+							gradeText.setText(Html.fromHtml("<b>" + grade + "</b>"));
+							gradeExpText.setText(gradeExp);
 
+							for(int i=0; i<imageResult.size(); i++){
+								
+								URL url;
+								try {
+									url = new URL("http://www.androidpub.com/files/attach/images/41913/5a20ec8926dc0cd5dc0bea4fa5fc985e.png");
+									Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
+									imgResultArray[i].setImageBitmap(bitmap);
+									
+								} catch (MalformedURLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							for(int i=imageResult.size(); i < imgResultArray.length; i++){
+								imgResultArray[i].setVisibility(View.INVISIBLE);
+							}
+							
+							
 							// setText 등
 
 						}
@@ -180,11 +228,6 @@ public class ResultActivity extends Activity {
 	}
 
 	private void parseJSON(JSONObject object) {
-		String grade = null;
-		String gradeExp = null;
-		JSONArray imageSearch = null;
-		JSONArray staticSearch = null;
-		JSONArray dynamicSearch = null;
 
 		try {
 			grade = object.getString("grade");
@@ -268,41 +311,91 @@ public class ResultActivity extends Activity {
 
 	public String[] getSolution(String engine, String url) {
 
-		String solution1 = null, solution2 = null;
-		String solution[] = { solution1, solution2 };
+		// String solution1 = null, solution2 = null;
+		String solution[] = { "", "" };
 
 		if (engine.matches(".*Naver.*") == true) {
-
+			solution[0] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
+					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>";
 		} else if (engine.matches(".*Daum.*") == true) {
-
+			solution[0] = "<p>결과가 내가아닌 타인에 의해 개인의 금융정보 유출이나 심각한 개인정보 피해를 야기할 수 있게 되었다면,</p>"
+					+ "<p>위 링크를 통해 처리과정을 참고한 후 게시중단요청을 진행하시기 바랍니다.</p> <h5>* 참고 : Daum 로그인이 필요합니다. 아이디가 없을경우 따로 본인인증을 거쳐야 합니다.</h5>";
 		} else if (engine.matches(".*Google.*") == true) {
-
+			solution[0] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
+					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>";
 		}
 
 		if (url.matches(".*blog.naver.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, "
+					+ "위 링크를 통해 처리과정을 참고한 후 </p><p>게시중단요청을 진행하시기 바랍니다.</p>"
+					+ "<h5>*참고 : 네이버 블로그의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>- 직접 삭제 -</p><p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 NaverBlog에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*kin.naver.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 처리과정을 참고한 후 </p>"
+					+ "<p>게시중단요청을 진행하시기 바랍니다.</p>"
+					+ "<h5>*참고 : 네이버 지식인의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>- 직접 삭제 -</p><p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 NaverKIN에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*blog.cyworld.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
+					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>"
+					+ "<h5>*참고 : 싸이월드 블로그의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>직접 삭제</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 CyworldBlog에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*cyworld.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
+					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>"
+					+ "<h5>*참고 : 싸이월드의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>직접 삭제</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Cyworld에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*blog.daum.*") == true) {
-
+			solution[1] = "<p>결과가 내가아닌 타인에 의해 개인의 금융정보 유출이나 심각한 개인정보 피해를 야기할 수 있게 되었다면,</p>"
+					+ "<p>위 링크를 통해 링크 내에 있는 권리침해 신고 처리절차를 숙지하신 후 신고하여 정보 삭제를 진행하십시오.</p>"
+					+ "<p>더 사세한 사항은 <a href='http://cs.daum.net/faq/list/95,7580.html' target='_blank'>Daum 명예훼손 신고 FAQ<a> 를 확인하시기 바랍니다.</p>"
+					+ "<h5>* 참고 : Daum 로그인이 필요합니다. 아이디가 없을경우 따로 본인인증을 거쳐야 합니다.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 DaumBlog에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*dreamwiz.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 삭제 요청을 할 수 있습니다.</p>"
+					+ "<p>검색 결과 삭제 요청을 통해 결과 삭제를 진행하세요.</p>"
+					+ "<h5>*참고 : 드림위즈의 침해신고는 반드시 로그인 과정을 거쳐야 가능합니다. 아이디가 없을 경우 회원 가입 후 신고를 진행하십시오.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Dreamwiz에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*egloos.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 침해 내용을 작성한 후 </p>"
+					+ "<p>보내기 버튼을 눌러 신고를 진행하십시오.</p>"
+					+ "<p>더 자세한 사항은 <a href='http://help.egloos.com/5870' target='_blank'>이글루스 권리침해 처리 절차 및 신고방법</a>"
+					+ "을 확인하시기 바랍니다.</p>"
+					+ "<h5>*참고 : 이글루스의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Egloos에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*gallog.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 침해 내용을 작성한 후 </p>"
+					+ "<p>신고를 진행하십시오.</p>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 DCinside에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*me2day.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 처리과정을 참고한 후 </p>"
+					+ "<p>게시중단요청을 진행하시기 바랍니다.</p>"
+					+ "<h5>*참고 : 네이버 미투데이의 권리침해 신고는 신고서와 증빙서류를 갖추어야 회사에 당해 게시물에 대한 게재 중단 조치를 요청할 수 있습니다.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 NaverMe2day에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*tistory.*") == true) {
-
+			solution[1] = "<p>결과가 내가아닌 타인에 의해 개인의 금융정보 유출이나 심각한 개인정보 피해를 야기할 수 있게 되었다면,</p>"
+					+ "<p>위 링크를 통해 링크 내에 있는 권리침해 신고 처리절차를 숙지하신 후 신고하여 정보 삭제를 진행하십시오.</p>"
+					+ "<p>더 사세한 사항은 <a href='http://cs.daum.net/faq/list/95,7580.html' target='_blank'>Daum 명예훼손 신고 FAQ<a> 를 확인하시기 바랍니다.</p>"
+					+ "<h5>* 참고 : Daum 로그인이 필요합니다. 아이디가 없을경우 따로 본인인증을 거쳐야 합니다.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Tistory에 직접 로그인하여 정보를 삭제하십시오.</p>";
 		} else if (url.matches(".*todayhumor.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 침해 내용을 작성한 후 </p><p>신고를 진행하십시오.</p>"
+					+ "<h5>* Todayhumor 로그인이 필요합니다.</h5>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Todayhumor에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		} else if (url.matches(".*twitter.*") == true) {
-
+			solution[1] = "<p>결과가 개인의 금융정보 유출이나 심각한 개인정보 침해를 야기할 수 있다면, 위 링크를 통해 다른 사용자에게 </p>"
+					+ "<p>컨텐츠 삭제를 요청하거나 위 링크의 과정을 따라가며 위반 행위를 신고하십시오.</p>"
+					+ "<p>- 직접 삭제 -</p>"
+					+ "<p>만약 자신이 직접 과거에 올렸던 자료가 개인정보 침해를 야기한다면 Twitter에 직접 로그인하여 정보를 삭제하십시오. </p>";
 		}
 
 		return solution;

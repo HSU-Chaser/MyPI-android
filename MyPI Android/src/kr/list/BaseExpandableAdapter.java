@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import kr.hansung.mypi.R;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -111,14 +114,47 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 			viewHolder.solution1 = (TextView) v.findViewById(R.id.solution1);
 			viewHolder.solution2 = (TextView) v.findViewById(R.id.solution2);
 
+//			viewHolder.urlLinkBtn = (Button) v.findViewById(R.id.urlLinkBtn);
+//			viewHolder.linkDeleteBtn = (Button) v
+//					.findViewById(R.id.linkDeleteBtn);
+//			viewHolder.centerBtn = (Button) v.findViewById(R.id.centerBtn);
+
 			v.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) v.getTag();
 		}
 
-		viewHolder.snippet.setText(getChild(groupPosition, childPosition).getSnippet());
-		viewHolder.solution1.setText(getChild(groupPosition, childPosition).getSolution1());
-		viewHolder.solution2.setText(getChild(groupPosition, childPosition).getSolution2());
+		viewHolder.snippet.setText(Html.fromHtml(getChild(groupPosition,
+				childPosition).getSnippet()));
+		viewHolder.solution1.setText(Html.fromHtml(getChild(groupPosition,
+				childPosition).getSolution1()));
+		viewHolder.solution2.setText(Html.fromHtml(getChild(groupPosition,
+				childPosition).getSolution2()));
+
+		if (getChild(groupPosition, childPosition).getSolution2().length() == 0) {
+			viewHolder.solution2.setText("검색결과에 대한 특정화된 솔루션이 존재하지 않습니다.");
+		}
+
+//		viewHolder.urlLinkBtn.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://blog.naver.com/dienerze"));
+//				startActivity(intent);
+//			}
+//		});
+//		viewHolder.linkDeleteBtn.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+//						.parse("http://blog.naver.com/dienerze"));
+//				startActivity(intent);
+//			}
+//		});
+//		viewHolder.centerBtn.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//				Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+//						.parse("http://blog.naver.com/dienerze"));
+//				startActivity(intent);
+//			}
+//		});
 
 		return v;
 	}
@@ -142,6 +178,11 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 		public TextView snippet;
 		public TextView solution1;
 		public TextView solution2;
+//
+//		public Button urlLinkBtn;
+//		public Button linkDeleteBtn;
+//		public Button centerBtn;
+
 	}
 
 }

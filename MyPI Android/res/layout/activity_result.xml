@@ -71,18 +71,18 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/safeText1"
+                            android:id="@+id/gradeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="회원님의 보안등급은 안전 입니다."
-                            android:textColor="#FF007F" />
+                            android:text="" />
+
                         <TextView
-                            android:id="@+id/safeText2"
+                            android:id="@+id/gradeExpText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="검색된 결과를 솔루션을 통해 지워보세요"
-                            android:textSize="10sp"
-                            android:textColor="#FAF4C0" />
+                            android:textColor="#FAF4C0"
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -173,7 +173,7 @@
                             android:rowCount="2" >
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult0"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="0"
@@ -182,7 +182,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult1"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="1"
@@ -191,7 +191,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult2"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="2"
@@ -200,7 +200,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult3"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="3"
@@ -209,7 +209,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult4"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="4"
@@ -218,7 +218,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult5"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="0"
@@ -227,7 +227,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult6"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="1"
@@ -236,7 +236,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult7"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="2"
@@ -245,7 +245,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult8"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="3"
@@ -254,7 +254,7 @@
                                 android:src="@drawable/image" />
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgResult9"
                                 android:layout_width="50dp"
                                 android:layout_height="40dp"
                                 android:layout_column="4"
@@ -332,7 +332,6 @@
                             android:layout_height="wrap_content"
                             android:text="Dynamic Search 결과"
                             android:textColor="#ffffff" />
-
                     </LinearLayout>
 
                     <LinearLayout

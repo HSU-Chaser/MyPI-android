@@ -33,7 +33,7 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/urlLinkBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="링크"
@@ -83,7 +83,7 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/linkDeleteBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="링크 삭제"
@@ -133,7 +133,7 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/centerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="고객센터"

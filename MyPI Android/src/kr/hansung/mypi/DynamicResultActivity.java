@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,12 +60,10 @@ public class DynamicResultActivity extends Activity {
 
 		mChildList.clear();
 
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		backHandler = new BackPressCloseHandler(this);
 
-		
 		for (int i = 0; i < mGroupList.size(); i++) {
 			ArrayList<ChildItem> tmpChild = new ArrayList<ChildItem>();
 			tmpChild.add(mChildListContent.get(i));
@@ -78,16 +75,14 @@ public class DynamicResultActivity extends Activity {
 
 		mListView.setAdapter(mBaseExpandableAdapter);
 
-
-
 		// 그룹 클릭 했을 경우 이벤트
 		mListView.setOnGroupClickListener(new OnGroupClickListener() {
 			@Override
 			public boolean onGroupClick(ExpandableListView parent, View v,
 					int groupPosition, long id) {
-				Toast.makeText(getApplicationContext(),
-						"g click = " + groupPosition, Toast.LENGTH_SHORT)
-						.show();
+				// Toast.makeText(getApplicationContext(),
+				// "g click = " + groupPosition, Toast.LENGTH_SHORT)
+				// .show();
 
 				// Listener 에서 Adapter 사용법 (getExpandableListAdapter 사용해야함.)
 				// BaseExpandableAdpater에 오버라이드 된 함수들을 사용할 수 있다.
@@ -98,6 +93,19 @@ public class DynamicResultActivity extends Activity {
 
 				return false;
 			}
+		});
+
+		mListView.setOnChildClickListener(new OnChildClickListener() {
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+
+				// parent.getExpandableListAdapter().getGroup(groupPosition).
+
+				return false;
+			}
+
 		});
 
 		// 차일드 클릭 했을 경우 이벤트
@@ -124,9 +132,9 @@ public class DynamicResultActivity extends Activity {
 		mListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				Toast.makeText(getApplicationContext(),
-						"g Expand = " + groupPosition, Toast.LENGTH_SHORT)
-						.show();
+				// Toast.makeText(getApplicationContext(),
+				// "g Expand = " + groupPosition, Toast.LENGTH_SHORT)
+				// .show();
 
 				int groupCount = mBaseExpandableAdapter.getGroupCount();
 
