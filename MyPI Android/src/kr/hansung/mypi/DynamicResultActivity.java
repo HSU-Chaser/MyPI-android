@@ -45,9 +45,6 @@ public class DynamicResultActivity extends BaseActivity {
 	TextView tv;
 	Button resultBtn;
 
-	//
-	// DataListView list;
-	// IconTextListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

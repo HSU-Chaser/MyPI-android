@@ -4,10 +4,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg03" >
 
-    <ExpandableListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:groupIndicator="@null" />
+        android:background="#33ffffff"
+        android:layout_margin="10dp" >
+
+        <ExpandableListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:groupIndicator="@null" >
+        </ExpandableListView>
+    </RelativeLayout>
 
 </RelativeLayout>

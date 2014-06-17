@@ -22,7 +22,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="22dp"
             android:gravity="center_horizontal"
-            android:text="MyPI에 오신것을 환영합니다." />
+            android:text="MyPI에 오신것을 환영합니다."
+            android:textColor="@color/btn_default"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/welcome4"
@@ -31,7 +33,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
-            android:text="최적화된 알고리즘을 제공합니다." />
+            android:text="최적화된 알고리즘을 제공합니다."
+            android:textColor="@color/btn_default"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/welcome3"
@@ -40,7 +44,9 @@
             android:layout_above="@+id/welcome4"
             android:layout_alignParentLeft="true"
             android:gravity="center_horizontal"
-            android:text="MyPI는 개인정보 보호를 위해" />
+            android:text="MyPI는 개인정보 보호를 위해"
+            android:textColor="@color/btn_default"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/welcome2"
@@ -49,18 +55,9 @@
             android:layout_above="@+id/welcome3"
             android:layout_alignParentLeft="true"
             android:gravity="center_horizontal"
-            android:text="웹에 노출된 자신의 정보를 정리하세요." />
-
-        <ImageView
-            android:id="@+id/searchBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/search"
-            android:minHeight="117px"
-            android:minWidth="108px"
-            android:scaleType="fitCenter" />
+            android:text="웹에 노출된 자신의 정보를 정리하세요."
+            android:textColor="@color/btn_default"
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/helpBtn"
@@ -69,6 +66,17 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/modal" />
+
+        <ImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/helpBtn"
+            android:background="@drawable/search"
+            android:minHeight="117px"
+            android:minWidth="108px"
+            android:scaleType="fitCenter" />
 
     </RelativeLayout>
 

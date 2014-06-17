@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SearchActivity extends BaseActivity {
 	@Override
@@ -29,6 +30,7 @@ public class SearchActivity extends BaseActivity {
 					view.setImageResource(R.drawable.modal_p);
 				} else if (event.getAction() == MotionEvent.ACTION_UP) {
 					view.setImageResource(R.drawable.modal);
+					Toast.makeText(getApplicationContext(), "오른쪽 상단에 회원정보 수정 버튼을 눌러 정보를 수정합니다.", Toast.LENGTH_LONG).show();
 				}
 				return true;
 			}

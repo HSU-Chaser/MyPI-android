@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="검색된 내용 미리보기"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -37,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="링크"
+                android:textColor="@color/text_color"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
@@ -51,7 +53,8 @@
             android:id="@+id/snippet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="이 결과가 검색되지 않게 하기"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -87,7 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="링크 삭제"
-                android:textSize="14sp"/>
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -101,7 +106,8 @@
             android:id="@+id/solution1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <LinearLayout
@@ -122,6 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="검색된 게시물 삭제하기"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -137,6 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="고객센터"
+                android:textColor="@color/text_color"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
@@ -151,7 +159,8 @@
             android:id="@+id/solution2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 </LinearLayout>
